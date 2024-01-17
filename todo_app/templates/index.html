@@ -12,18 +12,31 @@
       <h2>Items</h2>
       <ul class="list-group mb-4">
         {% for item in items %}
-          <li id="{{ item.id }}"> 
-            <input type="checkbox" id="{{item.id}}" onclick="updateItem(this.id)" {% if item.status == "Completed" %} checked {% endif %} >
-            <label for="item{{item.id}}"> {{item.title}} </label>
-            <button class="remove-button" id="{{item.id}}" onclick="removeItem(this.id)">Remove</button>
+          <li class="list-group-item" id="{{ item.id }}"> 
+            <div class="row">
+              <div class="col">
+                <input type="checkbox" id="{{item.id}}" onclick="updateItem(this.id)" {% if item.status == "Completed" %} checked {% endif %} >
+                <label for="item{{item.id}}"> {{item.title}} </label>
+              </div>
+
+              <div class="col">
+                <button class="btn btn-outline-danger btn-sm float-right" id="{{item.id}}" onclick="removeItem(this.id)">Remove</button>
+              </div>
+          </div>
           </li>
         {% endfor %}
       </ul>
 
       <h2>Add new item</h2>
       <form action="/add-item" method="post">
-        <input type="text" id="newItem" name="newItem" placeholder="Item name">
-        <input type="submit" value="Submit">
+        <div class="row">
+          <div class="col">
+            <input class="form-control" type="text" id="newItem" name="newItem" placeholder="Item name">
+          </div>
+          <div class="col">
+            <input class="btn btn-dark" type="submit" value="Submit">
+          </div>
+        </div>
       </form>
     </div>
   </div>
