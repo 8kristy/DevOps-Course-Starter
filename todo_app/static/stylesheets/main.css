@@ -1,0 +1,7 @@
+.list-group {
+  list-style-type: none;
+}
+
+label {
+  vertical-align: middle;
+}
