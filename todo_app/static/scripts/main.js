@@ -1,11 +1,11 @@
-function updateItem(checkbox){
+function updateItem(id){
   fetch("/update-item", {
     method: 'post',
     redirect: 'follow',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(
       { 
-        "id" : checkbox,
+        "id" : id,
       }
     ),
   })

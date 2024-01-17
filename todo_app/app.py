@@ -20,14 +20,12 @@ def addItem():
 
 @app.route('/update-item', methods=['POST'])
 def updateItem():
-    id = request.json.get("id").split("_")[1]
-    item = get_item(id)
+    item = get_item(request.json.get("id"))
     item["status"] = "Completed" if item["status"] == "Not Started" else "Not Started"
     save_item(item)
     return redirect(url_for('index')) 
 
 @app.route('/remove-item', methods=['POST'])
 def removeItem():
-    id = request.json.get("id").split("_")[1]
-    remove_item(id)
+    remove_item(request.json.get("id"))
     return redirect(url_for('index')) 
