@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from todo_app.data.session_items import get_items, add_item, get_item, save_item
+from todo_app.data.session_items import get_items, add_item, get_item, save_item, remove_item
 
 from todo_app.flask_config import Config
 
@@ -24,4 +24,10 @@ def updateItem():
     item = get_item(id)
     item["status"] = "Completed" if item["status"] == "Not Started" else "Not Started"
     save_item(item)
+    return redirect(url_for('index')) 
+
+@app.route('/remove-item', methods=['POST'])
+def removeItem():
+    id = request.json.get("id").split("_")[1]
+    remove_item(id)
     return redirect(url_for('index')) 

@@ -15,6 +15,7 @@
           <li id="{{ item.id }}"> 
             <input type="checkbox" id="item_{{item.id}}" onclick="updateItem(this.id)" {% if item.status == "Completed" %} checked {% endif %} >
             <label for="item{{item.id}}"> {{item.title}} </label>
+            <button class="remove-button" id="remove_{{item.id}}" onclick="removeItem(this.id)">Remove</button>
           </li>
         {% endfor %}
       </ul>
