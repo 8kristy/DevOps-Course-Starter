@@ -10,6 +10,7 @@ app.config.from_object(Config())
 @app.route('/')
 def index():
     items = get_items()
+    items = sorted(items, key=lambda x: x["status"], reverse=True)
     return render_template("index.html", items=items)
 
 @app.route('/add-item', methods=['POST'])
