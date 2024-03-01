@@ -70,5 +70,6 @@ def remove_item(id):
     Args:
         id: Id of the item to remove.
     """
-    pass
+    url = base_url + f"cards/{id}"
+    requests.request("DELETE", url, headers=headers, params=query).json()
 

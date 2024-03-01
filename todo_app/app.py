@@ -1,7 +1,6 @@
 import os
 from flask import Flask, render_template, request, redirect
-from todo_app.data.session_items import remove_item
-from todo_app.data.trello_items import get_items, add_item, update_item
+from todo_app.data.trello_items import get_items, add_item, update_item, remove_item
 
 from todo_app.flask_config import Config
 
