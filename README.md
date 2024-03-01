@@ -41,7 +41,7 @@ The `.env` file is used by flask to set environment variables when running `flas
 ## Configuration
 You need to populate the `TRELLO_API_KEY`,`TRELLO_API_TOKEN` and `TRELLO_BOARD_ID` in the `.env` file. 
 
-First create a [Trello](https://trello.com/) account and make a test board (e.g. To-Do App - test) with a `To Do` and `Done` columns.
+First create a [Trello](https://trello.com/) account and make a test board (e.g. To-Do App - test) with `To Do` and `Done` columns (**make sure the names match exactly**).
 
 Create a new power-up for the app here https://trello.com/power-ups/admin, then generate an API key and after that a token for it (there should be a link on the right of the API key) - these are the values for `TRELLO_API_KEY` and `TRELLO_API_TOKEN` respectively.
 
