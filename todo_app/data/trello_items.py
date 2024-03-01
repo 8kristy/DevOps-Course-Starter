@@ -18,11 +18,6 @@ to_do_list_name = os.getenv("TRELLO_TO_DO_LIST_NAME")
 done_list_id = os.getenv("TRELLO_DONE_LIST_ID")
 done_list_name = os.getenv("TRELLO_DONE_LIST_NAME")
 
-status_map_by_id = { 
-    to_do_list_id: "Not Started", 
-    done_list_id: "Completed" 
-}
-
 def get_items():
     """
     Fetches all saved items from the Trello board.
