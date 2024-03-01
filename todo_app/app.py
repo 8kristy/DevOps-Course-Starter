@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request, redirect
 from todo_app.data.session_items import remove_item
 from todo_app.data.trello_items import get_items, add_item, update_item
@@ -11,8 +12,8 @@ app.config.from_object(Config())
 @app.route('/')
 def index():
     items = get_items()
-    items = sorted(items, key=lambda x: x["status"], reverse=True)
-    return render_template("index.html", items=items)
+    items = sorted(items, key=lambda x: x.status, reverse=True)
+    return render_template("index.html", items=items, done_list_name=os.getenv("TRELLO_DONE_LIST_NAME"))
 
 @app.route('/add-item', methods=['POST'])
 def addItem():

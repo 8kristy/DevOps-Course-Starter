@@ -1,4 +1,5 @@
 import os, requests
+from todo_app.data.classes.Item import Item
 
 base_url = "https://api.trello.com/1/"
 
@@ -13,7 +14,9 @@ query = {
 
 board_id = os.getenv('TRELLO_BOARD_ID')
 to_do_list_id = os.getenv("TRELLO_TO_DO_LIST_ID")
+to_do_list_name = os.getenv("TRELLO_TO_DO_LIST_NAME")
 done_list_id = os.getenv("TRELLO_DONE_LIST_ID")
+done_list_name = os.getenv("TRELLO_DONE_LIST_NAME")
 
 status_map_by_id = { 
     to_do_list_id: "Not Started", 
@@ -27,9 +30,16 @@ def get_items():
     Returns:
         list: The list of saved items.
     """
-    url = base_url + f"boards/{board_id}/cards"
-    cards = requests.request("GET", url, headers=headers, params=query).json()
-    return [{"id": x["id"], "title": x["name"], "status": status_map_by_id[x["idList"]]} for x in cards]
+    url = base_url + f"boards/{board_id}/lists"
+    lists = requests.request("GET", url, headers=headers, params={**query, **{"cards": "open"}}).json()
+ 
+    to_do_list = next((x for x in lists if x["id"] == to_do_list_id), None)
+    done_list = next((x for x in lists if x["id"] == done_list_id), None)
+
+    to_do_cards = [Item.from_trello_card(card, to_do_list) for card in to_do_list["cards"]]
+    done_cards = [Item.from_trello_card(card, done_list) for card in done_list["cards"]]
+
+    return to_do_cards + done_cards
 
 def add_item(title):
     """
@@ -37,13 +47,9 @@ def add_item(title):
 
     Args:
         title: The title of the item.
-
-    Returns:
-        item: The new item.
     """
     url = base_url + f"cards"
-    newItem = requests.request("POST", url, headers=headers, params={**query, **{"idList": to_do_list_id, "name": title}}).json()
-    return {"id": newItem["id"], "status": "Not Started", "title": newItem["name"]}
+    requests.request("POST", url, headers=headers, params={**query, **{"idList": to_do_list_id, "name": title}}).json()
 
 def update_item(id):
     """
