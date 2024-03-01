@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect
-from todo_app.data.session_items import get_item, save_item, remove_item
-from todo_app.data.trello_items import get_items, add_item
+from todo_app.data.session_items import remove_item
+from todo_app.data.trello_items import get_items, add_item, update_item
 
 from todo_app.flask_config import Config
 
@@ -21,9 +21,7 @@ def addItem():
 
 @app.route('/update-item', methods=['POST'])
 def updateItem():
-    item = get_item(request.json.get("id"))
-    item["status"] = "Completed" if item["status"] == "Not Started" else "Not Started"
-    save_item(item)
+    update_item(request.json.get("id"))
     return redirect('/')
 
 @app.route('/remove-item', methods=['POST'])

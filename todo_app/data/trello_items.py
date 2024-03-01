@@ -31,20 +31,6 @@ def get_items():
     cards = requests.request("GET", url, headers=headers, params=query).json()
     return [{"id": x["id"], "title": x["name"], "status": status_map_by_id[x["idList"]]} for x in cards]
 
-def get_item(id):
-    """
-    Fetches the item with the specified ID.
-
-    Args:
-        id: The ID of the item.
-
-    Returns:
-        item: The saved item, or None if no items match the specified ID.
-    """
-    items = get_items()
-    return next((item for item in items if item['id'] == int(id)), None)
-
-
 def add_item(title):
     """
     Adds a new item with the specified title to the Trello board.
@@ -59,15 +45,17 @@ def add_item(title):
     newItem = requests.request("POST", url, headers=headers, params={**query, **{"idList": to_do_list_id, "name": title}}).json()
     return {"id": newItem["id"], "status": "Not Started", "title": newItem["name"]}
 
-def save_item(item):
+def update_item(id):
     """
     Updates an existing item on the board by moving it to a different list. 
-    If no existing item matches the ID of the specified item, nothing is saved.
 
     Args:
-        item: The item to save.
+        id: The ID of the item to update.
     """
-    pass
+    url = base_url + f"cards/{id}"
+    card = requests.request("GET", url, headers=headers, params=query).json()
+    list_to_move_to_id = done_list_id if card["idList"] == to_do_list_id else to_do_list_id
+    requests.request("PUT", url, headers=headers, params={**query, **{"idList": list_to_move_to_id}})
 
 def remove_item(id):
     """
