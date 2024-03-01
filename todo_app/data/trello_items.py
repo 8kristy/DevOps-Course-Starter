@@ -11,12 +11,14 @@ query = {
   'token': os.getenv('TRELLO_API_TOKEN')
 }
 
-status_map_by_id = { 
-    os.getenv("TRELLO_TO_DO_LIST_ID"): "Not Started", 
-    os.getenv("TRELLO_DONE_LIST_ID"): "Completed" 
-}
-
 board_id = os.getenv('TRELLO_BOARD_ID')
+to_do_list_id = os.getenv("TRELLO_TO_DO_LIST_ID")
+done_list_id = os.getenv("TRELLO_DONE_LIST_ID")
+
+status_map_by_id = { 
+    to_do_list_id: "Not Started", 
+    done_list_id: "Completed" 
+}
 
 def get_items():
     """
@@ -53,8 +55,9 @@ def add_item(title):
     Returns:
         item: The new item.
     """
-    pass
-
+    url = base_url + f"cards"
+    newItem = requests.request("POST", url, headers=headers, params={**query, **{"idList": to_do_list_id, "name": title}}).json()
+    return {"id": newItem["id"], "status": "Not Started", "title": newItem["name"]}
 
 def save_item(item):
     """
