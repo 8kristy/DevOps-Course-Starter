@@ -32,14 +32,7 @@ def get_items():
     """
     url = base_url + f"boards/{board_id}/lists"
     lists = requests.request("GET", url, headers=headers, params={**query, **{"cards": "open"}}).json()
- 
-    to_do_list = next((x for x in lists if x["id"] == to_do_list_id), None)
-    done_list = next((x for x in lists if x["id"] == done_list_id), None)
-
-    to_do_cards = [Item.from_trello_card(card, to_do_list) for card in to_do_list["cards"]]
-    done_cards = [Item.from_trello_card(card, done_list) for card in done_list["cards"]]
-
-    return to_do_cards + done_cards
+    return [Item.from_trello_card(card, list) for list in lists for card in list["cards"]]
 
 def add_item(title):
     """
