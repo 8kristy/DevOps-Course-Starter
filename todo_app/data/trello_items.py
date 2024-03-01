@@ -11,30 +11,12 @@ query = {
   'token': os.getenv('TRELLO_API_TOKEN')
 }
 
-def get_list_ids():
-    """
-    Fetches the IDs for the lists called "To Do" and "Done" in the Trello board.
+status_map_by_id = { 
+    os.getenv("TRELLO_TO_DO_LIST_ID"): "Not Started", 
+    os.getenv("TRELLO_DONE_LIST_ID"): "Completed" 
+}
 
-    Returns:
-        to_do_list_id: The ID of the list called "To Do"
-        done_list_id: The ID of the list called "Done"
-    """
-    url = base_url + f"boards/{os.getenv('TRELLO_BOARD_ID')}/lists"
-    lists = requests.request("GET", url, headers=headers, params=query).json()
-    to_do_list_id = next((x for x in lists if x["name"] == "To Do"), None)["id"]
-    done_list_id = next((x for x in lists if x["name"] == "Done"), None)["id"]
-    return to_do_list_id, done_list_id
-
-def get_cards_from_list(id):
-    """
-    Fetches the cards for the specified list
-
-    Returns:
-        list: The list of card objects that have the ID and the title of the card
-    """
-    url = base_url + f"lists/{id}/cards"
-    cards = requests.request("GET", url, headers=headers, params=query).json()
-    return [{"id": x["id"], "title": x["name"]} for x in cards]
+board_id = os.getenv('TRELLO_BOARD_ID')
 
 def get_items():
     """
@@ -43,10 +25,9 @@ def get_items():
     Returns:
         list: The list of saved items.
     """
-    to_do_list_id, done_list_id = get_list_ids()
-    to_do_cards = [dict(x, status='Completed') for x in get_cards_from_list(to_do_list_id)]
-    done_cards = [dict(x, status='Not Started') for x in get_cards_from_list(done_list_id)]
-    return to_do_cards + done_cards
+    url = base_url + f"boards/{board_id}/cards"
+    cards = requests.request("GET", url, headers=headers, params=query).json()
+    return [{"id": x["id"], "title": x["name"], "status": status_map_by_id[x["idList"]]} for x in cards]
 
 def get_item(id):
     """

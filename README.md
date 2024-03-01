@@ -39,18 +39,24 @@ $ cp .env.template .env  # (first time only)
 The `.env` file is used by flask to set environment variables when running `flask run`. This enables things like development mode (which also enables features like hot reloading when you make a file change). There's also a [SECRET_KEY](https://flask.palletsprojects.com/en/2.3.x/config/#SECRET_KEY) variable which is used to encrypt the flask session cookie.
 
 ## Configuration
-You need to populate the `TRELLO_API_KEY`,`TRELLO_API_TOKEN` and `TRELLO_BOARD_ID` in the `.env` file. 
+You need to populate the `TRELLO_API_KEY`,`TRELLO_API_TOKEN`, `TRELLO_BOARD_ID`, `TRELLO_TO_DO_LIST_ID` and `TRELLO_DONE_LIST_ID` variables in the `.env` file. 
 
-First create a [Trello](https://trello.com/) account and make a test board (e.g. To-Do App - test) with `To Do` and `Done` columns (**make sure the names match exactly**).
+First create a [Trello](https://trello.com/) account and make a test board (e.g. To-Do App - test) with `To Do` and `Done` columns.
 
 Create a new power-up for the app here https://trello.com/power-ups/admin, then generate an API key and after that a token for it (there should be a link on the right of the API key) - these are the values for `TRELLO_API_KEY` and `TRELLO_API_TOKEN` respectively.
 
-To get your test board ID, make this GET request
+To get your test board ID, make this GET request (don't forget to substitute the values)
 
 ```
-https://api.trello.com/1/members/me/boards?key={YOUR_API_KEY}&token={YOUR_TOKEN}
+https://api.trello.com/1/members/me/boards?key={TRELLO_API_KEY}&token={TRELLO_API_TOKEN}
 ```
-find your test board object (the name of it should be displayed), copy the ID and put it as your `TRELLO_BOARD_ID` value
+find your test board object (the name of it should be displayed), copy the ID and put it as your `TRELLO_BOARD_ID` value.
+
+To get `TRELLO_TO_DO_LIST_ID` and `TRELLO_DONE_LIST_ID`, make this request
+```
+https://api.trello.com/1/boards/{TRELLO_BOARD_ID}/lists?key={TRELLO_API_KEY}&token={TRELLO_API_TOKEN}
+```
+and copy the IDs from the response into the variables.
 
 ## Running the App
 
