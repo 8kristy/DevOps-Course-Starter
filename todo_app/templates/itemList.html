@@ -1,14 +1,14 @@
-<h2>Items</h2>
+<h2>{{list_name}}</h2>
 
 <ul class="list-group mb-4">
 
-  {% for item in view_model.items %}
+  {% for item in items_list %}
   <li class="list-group-item" id="{{ item.id }}">
 
     <div class="row">
 
       <div class="col">
-        <input type="checkbox" id="{{item.id}}" onclick="updateItem(this.id)" {%if item.status == item_status.DONE %} checked {% endif %} >
+        <input type="checkbox" id="{{item.id}}" onclick="updateItem(this.id)" {%if item.status == view_model.item_status.DONE %} checked {% endif %} >
         <label for="item{{item.id}}"> {{item.name}} </label>
       </div>
 

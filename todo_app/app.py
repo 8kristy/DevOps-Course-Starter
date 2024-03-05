@@ -11,7 +11,7 @@ app.config.from_object(Config())
 @app.route('/')
 def index():
     items = get_items()
-    items = sorted(items, key=lambda x: x.status, reverse=True)
+    items = sorted(items, key=lambda x: x.status.value)
     item_view_model = ViewModel(items)
     return render_template('index.html', view_model=item_view_model)
 
