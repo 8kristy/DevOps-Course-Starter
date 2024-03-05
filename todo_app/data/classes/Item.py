@@ -13,5 +13,5 @@ class Item:
 
     @classmethod
     def from_trello_card(cls, card, list):
-        status = ItemStatus.DONE if list['name'] == os.getenv("TRELLO_DONE_LIST_NAME") else ItemStatus.TODO
+        status = ItemStatus.DONE if list['id'] == os.getenv("TRELLO_DONE_LIST_ID") else ItemStatus.TODO
         return cls(card['id'], card['name'], status)

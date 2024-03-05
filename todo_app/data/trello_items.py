@@ -14,9 +14,7 @@ query = {
 
 board_id = os.getenv('TRELLO_BOARD_ID')
 to_do_list_id = os.getenv("TRELLO_TO_DO_LIST_ID")
-to_do_list_name = os.getenv("TRELLO_TO_DO_LIST_NAME")
 done_list_id = os.getenv("TRELLO_DONE_LIST_ID")
-done_list_name = os.getenv("TRELLO_DONE_LIST_NAME")
 
 def get_items():
     """

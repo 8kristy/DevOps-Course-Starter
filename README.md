@@ -39,7 +39,7 @@ $ cp .env.template .env  # (first time only)
 The `.env` file is used by flask to set environment variables when running `flask run`. This enables things like development mode (which also enables features like hot reloading when you make a file change). There's also a [SECRET_KEY](https://flask.palletsprojects.com/en/2.3.x/config/#SECRET_KEY) variable which is used to encrypt the flask session cookie.
 
 ## Configuration
-You need to populate the `TRELLO_API_KEY`,`TRELLO_API_TOKEN`, `TRELLO_BOARD_ID`, `TRELLO_TO_DO_LIST_ID`, `TRELLO_TO_DO_LIST_NAME`, `TRELLO_DONE_LIST_ID` and `TRELLO_DONE_LIST_NAME` variables in the `.env` file. 
+You need to populate the `TRELLO_API_KEY`,`TRELLO_API_TOKEN`, `TRELLO_BOARD_ID`, `TRELLO_TO_DO_LIST_ID` and `TRELLO_DONE_LIST_ID` variables in the `.env` file. 
 
 First create a [Trello](https://trello.com/) account and make a test board (e.g. To-Do App - test) with `To Do` and `Done` columns.
 
@@ -57,8 +57,6 @@ To get `TRELLO_TO_DO_LIST_ID` and `TRELLO_DONE_LIST_ID`, make this request
 https://api.trello.com/1/boards/{TRELLO_BOARD_ID}/lists?key={TRELLO_API_KEY}&token={TRELLO_API_TOKEN}
 ```
 and copy the IDs from the response into the variables.
-
-For `TRELLO_TO_DO_LIST_NAME` and `TRELLO_DONE_LIST_NAME` use the names you gave to the lists (e.g. in my case it's `TRELLO_TO_DO_LIST_NAME`=To Do `TRELLO_DONE_LIST_NAME`=Done)
 
 ## Running the App
 
