@@ -1,3 +1,5 @@
+import os
+
 class Item:
     def __init__(self, id, name, status = 'To Do'):
         self.id = id
@@ -6,4 +8,5 @@ class Item:
 
     @classmethod
     def from_trello_card(cls, card, list):
-        return cls(card['id'], card['name'], list['name'])
+        status = "Completed" if list['name'] == os.getenv("TRELLO_DONE_LIST_NAME") else "Not Started"
+        return cls(card['id'], card['name'], status)

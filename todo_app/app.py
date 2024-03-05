@@ -12,7 +12,7 @@ app.config.from_object(Config())
 def index():
     items = get_items()
     items = sorted(items, key=lambda x: x.status, reverse=True)
-    return render_template("index.html", items=items, done_list_name=os.getenv("TRELLO_DONE_LIST_NAME"))
+    return render_template("index.html", items=items)
 
 @app.route('/add-item', methods=['POST'])
 def addItem():
