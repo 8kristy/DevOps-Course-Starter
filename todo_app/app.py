@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect
-from todo_app.data.session_items import get_items, add_item, get_item, save_item, remove_item
+from todo_app.data.classes.Item import ItemStatus
+from todo_app.data.trello_items import get_items, add_item, update_item, remove_item
 
 from todo_app.flask_config import Config
 
@@ -10,8 +11,8 @@ app.config.from_object(Config())
 @app.route('/')
 def index():
     items = get_items()
-    items = sorted(items, key=lambda x: x["status"], reverse=True)
-    return render_template("index.html", items=items)
+    items = sorted(items, key=lambda x: x.status.value)
+    return render_template('index.html', items=items, item_status=ItemStatus)
 
 @app.route('/add-item', methods=['POST'])
 def addItem():
@@ -20,9 +21,7 @@ def addItem():
 
 @app.route('/update-item', methods=['POST'])
 def updateItem():
-    item = get_item(request.json.get("id"))
-    item["status"] = "Completed" if item["status"] == "Not Started" else "Not Started"
-    save_item(item)
+    update_item(request.json.get("id"))
     return redirect('/')
 
 @app.route('/remove-item', methods=['POST'])
