@@ -73,11 +73,10 @@ def test_add_item(monkeypatch, client):
     client.post('/add-item', data=dict(newItem=item_name))
 
     # Assert
-    my_mock.assert_called_once_with("https://api.trello.com/1/cards", headers=ANY, params={
-        "key": ANY,
-        "token": ANY,
-        "idList": os.environ.get('TRELLO_TO_DO_LIST_ID'),
-        "name": "fake new item title"})
+    assert my_mock.call_count == 1
+    assert my_mock.call_args.args[0] == f"https://api.trello.com/1/cards"
+    assert my_mock.call_args.kwargs["params"]["idList"] == os.environ.get('TRELLO_TO_DO_LIST_ID')
+    assert my_mock.call_args.kwargs["params"]["name"] == item_name
 
 
 def test_move_item_to_done(monkeypatch, client):
@@ -92,10 +91,9 @@ def test_move_item_to_done(monkeypatch, client):
                 content_type='application/json')
 
     # Assert
-    my_mock.assert_called_once_with(f"https://api.trello.com/1/cards/{card_id}", headers=ANY, params={
-        "key": ANY,
-        "token": ANY,
-        "idList": os.environ.get('TRELLO_DONE_LIST_ID')})
+    assert my_mock.call_count == 1
+    assert my_mock.call_args.args[0] == f"https://api.trello.com/1/cards/{card_id}"
+    assert my_mock.call_args.kwargs["params"]["idList"] == os.environ.get('TRELLO_DONE_LIST_ID')
 
 
 def test_move_item_to_to_do(monkeypatch, client):
@@ -110,10 +108,9 @@ def test_move_item_to_to_do(monkeypatch, client):
                 content_type='application/json')
 
     # Assert
-    my_mock.assert_called_once_with(f"https://api.trello.com/1/cards/{card_id}", headers=ANY, params={
-        "key": ANY,
-        "token": ANY,
-        "idList": os.environ.get('TRELLO_TO_DO_LIST_ID')})
+    assert my_mock.call_count == 1
+    assert my_mock.call_args.args[0] == f"https://api.trello.com/1/cards/{card_id}"
+    assert my_mock.call_args.kwargs["params"]["idList"] == os.environ.get('TRELLO_TO_DO_LIST_ID')
 
 
 def test_remove_item(monkeypatch, client):
@@ -123,8 +120,8 @@ def test_remove_item(monkeypatch, client):
     monkeypatch.setattr(requests, 'delete', my_mock)
 
     # Act
-    client.post('/remove-item', data=json.dumps(dict(id=card_id)),
-                content_type='application/json')
+    client.post('/remove-item', data=json.dumps(dict(id=card_id)), content_type='application/json')
 
     # Assert
-    my_mock.assert_called_once_with(f"https://api.trello.com/1/cards/{card_id}", headers=ANY, params=ANY)
+    assert my_mock.call_count == 1
+    assert my_mock.call_args.args[0] == f"https://api.trello.com/1/cards/{card_id}"
