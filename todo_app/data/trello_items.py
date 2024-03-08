@@ -21,7 +21,9 @@ def get_items():
     """
     url = base_url + f"boards/{os.getenv('TRELLO_BOARD_ID')}/lists"
     lists = requests.get(url, headers=headers, params={**query, **{"cards": "open"}}).json()
-    return [Item.from_trello_card(card, list) for list in lists for card in list["cards"]]
+    return [Item.from_trello_card(card, list) 
+            for list in lists 
+            for card in list["cards"]]
 
 def add_item(title):
     """
