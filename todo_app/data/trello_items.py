@@ -12,10 +12,6 @@ query = {
   'token': os.getenv('TRELLO_API_TOKEN')
 }
 
-board_id = os.getenv('TRELLO_BOARD_ID')
-to_do_list_id = os.getenv("TRELLO_TO_DO_LIST_ID")
-done_list_id = os.getenv("TRELLO_DONE_LIST_ID")
-
 def get_items():
     """
     Fetches all saved items from the Trello board.
@@ -23,8 +19,8 @@ def get_items():
     Returns:
         list: The list of saved items.
     """
-    url = base_url + f"boards/{board_id}/lists"
-    lists = requests.request("GET", url, headers=headers, params={**query, **{"cards": "open"}}).json()
+    url = base_url + f"boards/{os.getenv('TRELLO_BOARD_ID')}/lists"
+    lists = requests.get(url, headers=headers, params={**query, **{"cards": "open"}}).json()
     return [Item.from_trello_card(card, list) for list in lists for card in list["cards"]]
 
 def add_item(title):
@@ -35,7 +31,7 @@ def add_item(title):
         title: The title of the item.
     """
     url = base_url + f"cards"
-    requests.request("POST", url, headers=headers, params={**query, **{"idList": to_do_list_id, "name": title}}).json()
+    requests.post(url, headers=headers, params={**query, **{"idList": os.getenv("TRELLO_TO_DO_LIST_ID"), "name": title}}).json()
 
 def update_item(id):
     """
@@ -46,8 +42,8 @@ def update_item(id):
     """
     url = base_url + f"cards/{id}"
     card = requests.request("GET", url, headers=headers, params=query).json()
-    list_to_move_to_id = done_list_id if card["idList"] == to_do_list_id else to_do_list_id
-    requests.request("PUT", url, headers=headers, params={**query, **{"idList": list_to_move_to_id}})
+    list_to_move_to_id = os.getenv("TRELLO_DONE_LIST_ID") if card["idList"] == os.getenv("TRELLO_TO_DO_LIST_ID") else os.getenv("TRELLO_TO_DO_LIST_ID")
+    requests.put(url, headers=headers, params={**query, **{"idList": list_to_move_to_id}})
 
 def remove_item(id):
     """
@@ -57,5 +53,5 @@ def remove_item(id):
         id: Id of the item to remove.
     """
     url = base_url + f"cards/{id}"
-    requests.request("DELETE", url, headers=headers, params=query).json()
+    requests.delete(url, headers=headers, params=query).json()
 
