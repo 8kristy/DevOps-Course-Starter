@@ -43,7 +43,7 @@ def update_item(id):
         id: The ID of the item to update.
     """
     url = base_url + f"cards/{id}"
-    card = requests.request("GET", url, headers=headers, params=query).json()
+    card = requests.get(url, headers=headers, params=query).json()
     list_to_move_to_id = os.getenv("TRELLO_DONE_LIST_ID") if card["idList"] == os.getenv("TRELLO_TO_DO_LIST_ID") else os.getenv("TRELLO_TO_DO_LIST_ID")
     requests.put(url, headers=headers, params={**query, **{"idList": list_to_move_to_id}})
 
@@ -55,5 +55,5 @@ def remove_item(id):
         id: Id of the item to remove.
     """
     url = base_url + f"cards/{id}"
-    requests.delete(url, headers=headers, params=query).json()
+    requests.delete(url, headers=headers, params=query)
 

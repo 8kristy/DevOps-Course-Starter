@@ -1,8 +1,11 @@
+import json
 import os
 from dotenv import load_dotenv, find_dotenv
 import pytest
 import requests
 from todo_app import app
+from mock import Mock, ANY
+
 
 @pytest.fixture
 def client():
@@ -17,12 +20,14 @@ def client():
     with test_app.test_client() as client:
         yield client
 
+
 class StubResponse():
-  def __init__(self, fake_response_data):
+    def __init__(self, fake_response_data):
         self.fake_response_data = fake_response_data
 
-  def json(self):
+    def json(self):
         return self.fake_response_data
+
 
 def stub(url, headers={}, params={}):
     test_board_id = os.environ.get('TRELLO_BOARD_ID')
@@ -37,6 +42,15 @@ def stub(url, headers={}, params={}):
 
     raise Exception(f'Integration test did not expect URL "{url}"')
 
+
+def to_do_card_stub(url, headers={}, params={}):
+    return StubResponse({'idList': os.environ.get('TRELLO_TO_DO_LIST_ID')})
+
+
+def done_card_stub(url, headers={}, params={}):
+    return StubResponse({'idList': os.environ.get('TRELLO_DONE_LIST_ID')})
+
+
 def test_index_page(monkeypatch, client):
     # Arrange
     monkeypatch.setattr(requests, 'get', stub)
@@ -47,3 +61,70 @@ def test_index_page(monkeypatch, client):
     # Assert
     assert response.status_code == 200
     assert 'Test card' in response.data.decode()
+
+
+def test_add_item(monkeypatch, client):
+    # Arrange
+    item_name = "fake new item title"
+    my_mock = Mock()
+    monkeypatch.setattr(requests, 'post', my_mock)
+
+    # Act
+    client.post('/add-item', data=dict(newItem=item_name))
+
+    # Assert
+    my_mock.assert_called_once_with("https://api.trello.com/1/cards", headers=ANY, params={
+        "key": ANY,
+        "token": ANY,
+        "idList": os.environ.get('TRELLO_TO_DO_LIST_ID'),
+        "name": "fake new item title"})
+
+
+def test_move_item_to_done(monkeypatch, client):
+    # Arrange
+    card_id = "123abc"
+    monkeypatch.setattr(requests, 'get', to_do_card_stub)
+    my_mock = Mock()
+    monkeypatch.setattr(requests, 'put', my_mock)
+
+    # Act
+    client.post('/update-item', data=json.dumps(dict(id=card_id)),
+                content_type='application/json')
+
+    # Assert
+    my_mock.assert_called_once_with(f"https://api.trello.com/1/cards/{card_id}", headers=ANY, params={
+        "key": ANY,
+        "token": ANY,
+        "idList": os.environ.get('TRELLO_DONE_LIST_ID')})
+
+
+def test_move_item_to_to_do(monkeypatch, client):
+    # Arrange
+    card_id = "123abc"
+    monkeypatch.setattr(requests, 'get', done_card_stub)
+    my_mock = Mock()
+    monkeypatch.setattr(requests, 'put', my_mock)
+
+    # Act
+    client.post('/update-item', data=json.dumps(dict(id=card_id)),
+                content_type='application/json')
+
+    # Assert
+    my_mock.assert_called_once_with(f"https://api.trello.com/1/cards/{card_id}", headers=ANY, params={
+        "key": ANY,
+        "token": ANY,
+        "idList": os.environ.get('TRELLO_TO_DO_LIST_ID')})
+
+
+def test_remove_item(monkeypatch, client):
+    # Arrange
+    card_id = "123abc"
+    my_mock = Mock()
+    monkeypatch.setattr(requests, 'delete', my_mock)
+
+    # Act
+    client.post('/remove-item', data=json.dumps(dict(id=card_id)),
+                content_type='application/json')
+
+    # Assert
+    my_mock.assert_called_once_with(f"https://api.trello.com/1/cards/{card_id}", headers=ANY, params=ANY)
