@@ -8,7 +8,7 @@
     <div class="row">
 
       <div class="col">
-        <input type="checkbox" id="{{item.id}}" onclick="updateItem(this.id)" {%if item.status == view_model.item_status.DONE %} checked {% endif %} >
+        <input type="checkbox" id="{{item.id}}" onclick="updateItem(this.id)" {%if items_are_complete %} checked {% endif %} >
         <label for="item{{item.id}}"> {{item.name}} </label>
       </div>
 

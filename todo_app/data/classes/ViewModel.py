@@ -9,10 +9,6 @@ class ViewModel:
         return self._items
     
     @property
-    def item_status(self):
-        return ItemStatus
-    
-    @property
     def done_items(self):
         return [x for x in self._items if x.status == ItemStatus.DONE]
     

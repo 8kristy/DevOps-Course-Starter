@@ -9,11 +9,11 @@
 
   <div class="row">
     <div class="col-md-12">
-      {% with list_name="To Do Items", items_list=view_model.to_do_items %}
+      {% with list_name="To Do Items", items_list=view_model.to_do_items, items_are_complete=False %}
         {% include "itemList.html" %}
       {% endwith %}
 
-      {% with list_name="Done Items", items_list=view_model.done_items %}
+      {% with list_name="Done Items", items_list=view_model.done_items, items_are_complete=True %}
         {% include "itemList.html" %}
       {% endwith %}
 
