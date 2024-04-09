@@ -1,0 +1,61 @@
+- name: playbook
+  hosts: webservers
+  vars_prompt:
+    - name: trello_api_key
+      prompt: Enter Trello API key
+      private: false
+
+    - name: trello_api_token
+      prompt: Enter Trello API token
+      private: false
+
+    - name: trello_board_id
+      prompt: Enter Trello board ID
+      private: false
+
+    - name: trello_to_do_list_id
+      prompt: Enter Trello To Do List ID
+      private: false
+
+    - name: trello_done_list_id
+      prompt: Enter Trello Done List ID
+      private: false
+
+  remote_user: ec2-user
+  tasks:
+  - name: Install git and python3
+    ansible.builtin.yum:
+      name: 
+        - git
+        - python3
+      state: latest
+    become: yes
+
+  - name: Install poetry
+    ansible.builtin.shell:
+      cmd: curl -sSL https://install.python-poetry.org | python3 -
+      creates: ~/.local/bin/poetry
+
+  - name: Create todoapp directory
+    ansible.builtin.file:
+      path: /opt/todoapp
+      state: directory
+      owner: ec2-user
+    become: yes
+
+  - name: Clone todo_app
+    ansible.builtin.git:
+      repo: 'https://github.com/8kristy/DevOps-Course-Starter.git'
+      dest: /opt/todoapp
+      version: exercise-4
+
+  - name: Install poetry dependencies
+    ansible.builtin.shell:
+      cmd: rm poetry.lock; ~/.local/bin/poetry install
+      chdir: /opt/todoapp
+
+  - name: Copy .env template
+    ansible.builtin.template:
+      src: .env.template
+      dest: /opt/todoapp/.env
+      owner: ec2-user
