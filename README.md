@@ -109,11 +109,13 @@ Ansible is used to put new virtual machines to a desired state. Managed nodes ad
 ## First Time Setup
 
 This assumes that the nodes have already been set up
+- Copy files inside `\ansible` to the contol node (i.e. `\ansible\.env.j2`, `\ansible\inventory.ini`, `\ansible\playbook.yml` and `\ansible\todoapp.service`)
+  - Easiest way to this is to run `scp -r .\ansible\ user@host:`
 - Connect to the control node using `ssh user@host`
   - This will prompt for a password; see [SSH Setup](#ssh) if you want to get rid of that
-- Copy files inside `\ansible` to the contol node (i.e. `\ansible\.env.j2`, `\ansible\inventory.ini`, `\ansible\playbook.yml` and `\ansible\todoapp.service`)
+- Navigate to `\ansible` on the control node
 - Create an ansible vault 
-  - Run `ansible-vault create vars\webservers`
+  - Run `ansible-vault create vars/webservers`
   - Enter a password (you need to remember it)
   - Copy your keys from .env to the vault in the following format (see [Configuration](#configuration) on how to get the values if you don't have them yet):
   ```
