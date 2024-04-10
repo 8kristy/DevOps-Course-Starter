@@ -1,26 +1,5 @@
 - name: playbook
   hosts: webservers
-  vars_prompt:
-    - name: trello_api_key
-      prompt: Enter Trello API key
-      private: false
-
-    - name: trello_api_token
-      prompt: Enter Trello API token
-      private: false
-
-    - name: trello_board_id
-      prompt: Enter Trello board ID
-      private: false
-
-    - name: trello_to_do_list_id
-      prompt: Enter Trello To Do List ID
-      private: false
-
-    - name: trello_done_list_id
-      prompt: Enter Trello Done List ID
-      private: false
-
   remote_user: ec2-user
   tasks:
   - name: Install git and python3
@@ -48,11 +27,15 @@
       repo: 'https://github.com/8kristy/DevOps-Course-Starter.git'
       dest: /opt/todoapp
       version: exercise-4
+      force: yes
 
   - name: Install poetry dependencies
     ansible.builtin.shell:
       cmd: rm poetry.lock; ~/.local/bin/poetry install
       chdir: /opt/todoapp
+
+  - name: Read encrypted variables
+    include_vars: webservers
 
   - name: Copy .env template
     ansible.builtin.template:
