@@ -38,7 +38,8 @@ $ cp .env.template .env  # (first time only)
 
 The `.env` file is used by flask to set environment variables when running `flask run`. This enables things like development mode (which also enables features like hot reloading when you make a file change). There's also a [SECRET_KEY](https://flask.palletsprojects.com/en/2.3.x/config/#SECRET_KEY) variable which is used to encrypt the flask session cookie.
 
-## Configuration
+## <a name="configuration"></a> Configuration
+
 You need to populate the `TRELLO_API_KEY`,`TRELLO_API_TOKEN`, `TRELLO_BOARD_ID`, `TRELLO_TO_DO_LIST_ID` and `TRELLO_DONE_LIST_ID` variables in the `.env` file. 
 
 First create a [Trello](https://trello.com/) account and make a test board (e.g. To-Do App - test) with `To Do` and `Done` columns.
@@ -83,3 +84,56 @@ Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser
 To run all tests, simply run `poetry run pytest` from the terminal in the root folder. (`poetry run pytest <path\to\file>` to run tests in that file, `poetry run pytest <path\to\file> -k '<test_name>'` to run 1 specific test)
 
 To run tests in VSCode, press the "Testing" item on the left (beaker icon) or Ctrl+Shift+P -> `View: Show Testing` and select `pytest`, then `todo_app` when running the configuration. The tests should appear on the side panel and you should be able to run them through the UI, including adding breakpoints and debugging. 
+
+# <a name="ssh"></a>SSH Setup
+
+Run `ssh-keygen`, then
+
+  - **On Linux**
+
+    - Run `ssh-copy-id user@host` and enter the password
+    - You can now connect to the machine using `ssh user@host` without a password
+
+  - **On Windows**
+
+    - Connect to the host
+    - Append your public key to the `~/.ssh/authorized_keys` file (e.g. `vim ~/.ssh/authorized_keys` and paste it at the end of the file). The public key will either be in `C:\Users\<user>\.ssh` or in the current folder if a custom name was given (this is the `<key>.pub`)
+    - Save the file and exit the machine
+    - You can now connect to the machine using `ssh user@host -i path/to/private/key`
+
+
+# Ansible Setup
+
+Ansible is used to put new virtual machines to a desired state. Managed nodes addresses should be kept in `ansible\inventory.ini`.
+
+## First Time Setup
+
+This assumes that the nodes have already been set up
+- Copy files inside `\ansible` to the contol node (i.e. `\ansible\.env.j2`, `\ansible\inventory.ini`, `\ansible\playbook.yml` and `\ansible\todoapp.service`)
+  - Easiest way to this is to run `scp -r .\ansible\ user@host:`
+- Connect to the control node using `ssh user@host`
+  - This will prompt for a password; see [SSH Setup](#ssh) if you want to get rid of that
+- Navigate to `\ansible` on the control node
+- Create an ansible vault 
+  - Run `ansible-vault create vars/webservers`
+  - Enter a password (you need to remember it)
+  - Copy your keys from .env to the vault in the following format (see [Configuration](#configuration) on how to get the values if you don't have them yet):
+  ```
+  trello_api_key: <TRELLO_API_KEY>
+  trello_api_token: <TRELLO_API_TOKEN>
+  trello_board_id: <TRELLO_BOARD_ID>
+  trello_to_do_list_id: <TRELLO_TO_DO_LIST_ID> 
+  trello_done_list_id: <TRELLO_DONE_LIST_ID>
+  ```
+  - Save the vault
+
+### Setup without a vault (NOT RECOMMENDED)
+Instead of creating a vault you can also just make a file `vars\webservers` and paste the same data as you'd do in the vault into it
+
+## Running
+
+Run `ansible-playbook playbook.yml -i inventory.ini --ask-vault-pass` and enter your vault password (or just `ansible-playbook playbook.yml -i inventory.ini` if you didn't create a vault). 
+
+The configuration should be applied to all managed nodes and you should be able to connect to them using `<node_ip>:5000` from the browser.
+
+ 

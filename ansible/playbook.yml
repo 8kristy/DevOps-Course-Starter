@@ -1,0 +1,58 @@
+- name: playbook
+  hosts: webservers
+  remote_user: ec2-user
+  tasks:
+  - name: Install git and python3
+    ansible.builtin.yum:
+      name: 
+        - git
+        - python3
+      state: latest
+    become: yes
+
+  - name: Install poetry
+    ansible.builtin.shell:
+      cmd: curl -sSL https://install.python-poetry.org | python3 -
+      creates: ~/.local/bin/poetry
+
+  - name: Create todoapp directory
+    ansible.builtin.file:
+      path: /opt/todoapp
+      state: directory
+      owner: ec2-user
+    become: yes
+
+  - name: Clone todo_app
+    ansible.builtin.git:
+      repo: 'https://github.com/8kristy/DevOps-Course-Starter.git'
+      dest: /opt/todoapp
+      version: exercise-4
+      force: yes
+
+  - name: Install poetry dependencies
+    ansible.builtin.shell:
+      cmd: rm poetry.lock; ~/.local/bin/poetry install
+      chdir: /opt/todoapp
+
+  - name: Read encrypted variables
+    include_vars: webservers
+
+  - name: Copy .env template
+    ansible.builtin.template:
+      src: .env.j2
+      dest: /opt/todoapp/.env
+      owner: ec2-user
+
+  - name: Copy todoapp.service file to systemd
+    ansible.builtin.copy:
+      src: todoapp.service
+      dest: /etc/systemd/system/todoapp.service
+    become: yes
+
+  - name: Run To do app
+    ansible.builtin.systemd_service:
+      state: restarted
+      name: todoapp
+      daemon_reload: yes
+    become: yes
+    
