@@ -8,9 +8,11 @@ EXPOSE 5000
 RUN apk add curl
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
+ENV PATH $PATH:/root/.local/bin
+
 COPY todo_app ./todo_app
-COPY .env poetry.lock *.toml ./
+COPY poetry.lock pyproject.toml ./
 
-RUN /root/.local/bin/poetry install
+RUN poetry install
 
-ENTRYPOINT /root/.local/bin/poetry run flask run --host 0.0.0.0
+ENTRYPOINT poetry run flask run --host 0.0.0.0
