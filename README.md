@@ -2,6 +2,23 @@
 
 > If you are using GitPod for the project exercise (i.e. you cannot use your local machine) then you'll want to launch a VM using the [following link](https://gitpod.io/#https://github.com/CorndelWithSoftwire/DevOps-Course-Starter). Note this VM comes pre-setup with Python & Poetry pre-installed.
 
+## Running with Docker
+
+First do the steps in [Configuration](#configuration) to configure your environment variables
+
+### Development
+
+Run `docker build --target development --tag to-do-app:dev .` from the root to build the container and then `docker run -p 5000:5000 --env-file .env --mount "type=bind,source=$(pwd),target=/usr/src/app" to-do-app:dev` to run it. The code should change without you needing to re-run the container.
+
+The app should be accessible in the browser via http://localhost:5000/
+
+### Prod
+
+`docker build --target production --tag to-do-app:prod .`
+
+`docker run -p 5000:5000 --env-file .env to-do-app:prod `
+
+
 ## System Requirements
 
 The project uses poetry for Python to create an isolated environment and manage package dependencies. To prepare your system, ensure you have an official distribution of Python version 3.8+ and install Poetry using one of the following commands (as instructed by the [poetry documentation](https://python-poetry.org/docs/#system-requirements)):
