@@ -8,9 +8,21 @@ First do the steps in [Configuration](#configuration) to configure your environm
 
 ### Development
 
-`docker compose up`
+`docker compose up --build`
 
 The app should be accessible in the browser via http://localhost:5000/ The code should change without you needing to re-run the container.
+
+### Debug
+
+Download the [Docker extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) and [Remote Development extention](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)
+
+Run `docker compose -f docker-compose.debug.yml up --build`
+
+Open the Docker extension on the side, right click your running container and press "Attach Visual Studio Code". A new window should pop up. Wait for it to connect to the container.
+
+Click on the debug/run menu on the new Window and try running the Flask app with debugging on. It will prompt you to install Python Extension, do that.
+
+Run it again and you should be able to access the app on http://localhost:5000/. If you add any break points on your new window connected to the container, the app will stop there and show all the information in the debugger.
 
 ### Prod
 

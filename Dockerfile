@@ -22,3 +22,7 @@ ENTRYPOINT poetry run flask run --host 0.0.0.0
 FROM base as development
 
 ENTRYPOINT poetry install; poetry run flask run --host 0.0.0.0
+
+FROM base as debug
+
+ENTRYPOINT poetry install; tail -f /dev/null

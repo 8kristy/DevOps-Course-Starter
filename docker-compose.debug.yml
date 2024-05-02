@@ -1,0 +1,13 @@
+version: "1"
+
+services:
+  to-do-app:
+    build: 
+      context: .
+      target: debug
+    ports:
+      - "5000:5000"
+    env_file:
+      - path: .env  
+    volumes:
+      - ./:/usr/src/app:rw
