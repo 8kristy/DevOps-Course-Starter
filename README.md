@@ -8,9 +8,9 @@ First do the steps in [Configuration](#configuration) to configure your environm
 
 ### Development
 
-Run `docker build --target development --tag to-do-app:dev .` from the root to build the container and then `docker run -p 5000:5000 --env-file .env --mount "type=bind,source=$(pwd),target=/usr/src/app" to-do-app:dev` to run it. The code should change without you needing to re-run the container.
+`docker compose up`
 
-The app should be accessible in the browser via http://localhost:5000/
+The app should be accessible in the browser via http://localhost:5000/ The code should change without you needing to re-run the container.
 
 ### Prod
 
