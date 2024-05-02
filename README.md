@@ -20,16 +20,13 @@ Run `docker compose -f docker-compose.debug.yml up --build`
 
 Open the Docker extension on the side, right click your running container and press "Attach Visual Studio Code". A new window should pop up. Wait for it to connect to the container.
 
-Click on the debug/run menu on the new Window and try running the Flask app with debugging on. It will prompt you to install Python Extension, do that.
+Open the `/usr/src/app` folder in the container. Click on the debug/run menu on the new Window and try running the Flask app with debugging on. It will prompt you to install Python Extension, do that.
 
 Run it again and you should be able to access the app on http://localhost:5000/. If you add any break points on your new window connected to the container, the app will stop there and show all the information in the debugger.
 
 ### Prod
 
-`docker build --target production --tag to-do-app:prod .`
-
-`docker run -p 5000:5000 --env-file .env to-do-app:prod `
-
+`docker compose -f .\docker-compose.prod.yml up --build`
 
 ## System Requirements
 
