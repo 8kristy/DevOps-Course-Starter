@@ -11,3 +11,11 @@ services:
       - path: .env  
     volumes:
       - ./:/usr/src/app:rw
+  to-do-app-tests:
+    build: 
+      context: .
+      target: test
+    env_file:
+      - path: .env.test  
+    volumes:
+      - ./:/usr/src/app:rw

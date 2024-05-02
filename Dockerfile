@@ -29,4 +29,4 @@ ENTRYPOINT poetry install; tail -f /dev/null
 
 FROM base as test
 
-ENTRYPOINT poetry install; poetry run pytest
+ENTRYPOINT poetry install; poetry run pytest-watch --poll
