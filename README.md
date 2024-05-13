@@ -2,6 +2,32 @@
 
 > If you are using GitPod for the project exercise (i.e. you cannot use your local machine) then you'll want to launch a VM using the [following link](https://gitpod.io/#https://github.com/CorndelWithSoftwire/DevOps-Course-Starter). Note this VM comes pre-setup with Python & Poetry pre-installed.
 
+## Running with Docker
+
+First do the steps in [Configuration](#configuration) to configure your environment variables
+
+### Development
+
+`docker compose up --build`
+
+The app should be accessible in the browser via http://localhost:5000/ The code should change without you needing to re-run the container.
+
+### Debug
+
+Download the [Docker extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) and [Remote Development extention](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)
+
+Run `docker compose -f docker-compose.debug.yml up --build`
+
+Open the Docker extension on the side, right click your running container and press "Attach Visual Studio Code". A new window should pop up. Wait for it to connect to the container.
+
+Open the `/usr/src/app` folder in the container. Click on the debug/run menu on the new Window and try running the Flask app with debugging on. It will prompt you to install Python Extension, do that.
+
+Run it again and you should be able to access the app on http://localhost:5000/. If you add any break points on your new window connected to the container, the app will stop there and show all the information in the debugger.
+
+### Prod
+
+`docker compose -f .\docker-compose.prod.yml up --build`
+
 ## System Requirements
 
 The project uses poetry for Python to create an isolated environment and manage package dependencies. To prepare your system, ensure you have an official distribution of Python version 3.8+ and install Poetry using one of the following commands (as instructed by the [poetry documentation](https://python-poetry.org/docs/#system-requirements)):

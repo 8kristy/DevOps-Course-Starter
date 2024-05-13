@@ -1,0 +1,9 @@
+/.github
+/.pytest_cache
+/.venv
+/.ansible
+.env*
+.gitignore
+Dockerfile
+README.md
+**/__pycache__

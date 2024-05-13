@@ -1,0 +1,11 @@
+version: "1"
+
+services:
+  to-do-app:
+    build: 
+      context: .
+      target: production
+    ports:
+      - "5000:5000"
+    env_file:
+      - path: .env  
