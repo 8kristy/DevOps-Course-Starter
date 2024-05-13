@@ -92,15 +92,6 @@ Once the all dependencies have been installed and secret values added, start the
 $ poetry run flask run
 ```
 
-If you get an error saying 
-
-> Recreating virtualenv todo-app in \<your working directory\>\\.venv
-
-> 'flask' is not recognized as an internal or external command,
-operable program or batch file." 
-
-(especially if you tried running the dev Docker container) you might need to run `poetry install` and try again
-
 You should see output similar to the following:
 ```bash
  * Serving Flask app 'todo_app/app'

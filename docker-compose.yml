@@ -10,7 +10,7 @@ services:
     env_file:
       - path: .env  
     volumes:
-      - ./:/usr/src/app:rw
+      - ./todo_app:/usr/src/app/todo_app:rw
   to-do-app-tests:
     build: 
       context: .
@@ -18,4 +18,4 @@ services:
     env_file:
       - path: .env.test  
     volumes:
-      - ./:/usr/src/app:rw
+      - ./todo_app:/usr/src/app/todo_app:rw

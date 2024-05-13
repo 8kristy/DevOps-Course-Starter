@@ -1,9 +1,9 @@
 /.github
 /.pytest_cache
 /.venv
-/.vscode
 /.ansible
 .env*
 .gitignore
 Dockerfile
 README.md
+**/__pycache__
