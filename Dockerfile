@@ -1,6 +1,5 @@
 FROM python:3.11.5-alpine as base
 
-RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
 
 EXPOSE 5000
