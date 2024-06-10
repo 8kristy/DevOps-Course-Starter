@@ -162,4 +162,19 @@ Run `ansible-playbook playbook.yml -i inventory.ini --ask-vault-pass` and enter 
 
 The configuration should be applied to all managed nodes and you should be able to connect to them using `<node_ip>:5000` from the browser.
 
- 
+## Architecture diagrams
+
+These can be found in `/diagrams`. Theres 3 (context, container and component) diagrams in `C4.svg` and 2 code diagrams the other 2 files.
+
+### Updating diagrams
+
+#### Context, container and component
+
+You can import the `C4.svg` file to draw.io, edit and then export as `.svg` and replace the file.
+
+#### Code
+
+- Install `pylint` (this installs `pyreverse` which can generate the diagrams)
+- `cd todo_app`
+- `pyreverse -p todo_app .`
+- This will generate 2 `.dot` files. You can use tools such as https://dreampuf.github.io/GraphvizOnline to draw the diagrams from those files (alternatively you can install Graphviz and run `pyreverse -o png -p todo_app .`)
