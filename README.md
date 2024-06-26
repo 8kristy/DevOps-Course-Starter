@@ -10,7 +10,7 @@ First do the steps in [Configuration](#configuration) to configure your environm
 
 `docker compose up --build`
 
-The app should be accessible in the browser via http://localhost:5000/ The code should change without you needing to re-run the container.
+The app should be accessible in the browser via http://localhost:5000/ The code should change without you needing to re-run the container and tests re-run on change.
 
 ### Debug
 
@@ -110,6 +110,15 @@ Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser
 To run all tests, simply run `poetry run pytest` from the terminal in the root folder. (`poetry run pytest <path\to\file>` to run tests in that file, `poetry run pytest <path\to\file> -k '<test_name>'` to run 1 specific test)
 
 To run tests in VSCode, press the "Testing" item on the left (beaker icon) or Ctrl+Shift+P -> `View: Show Testing` and select `pytest`, then `todo_app` when running the configuration. The tests should appear on the side panel and you should be able to run them through the UI, including adding breakpoints and debugging. 
+
+### Docker
+
+```
+docker build --target test --tag todo-app:test .
+docker run --mount "type=bind,source=$(pwd),target=/usr/src/app" todo-app:test
+```
+
+If running the default `docker-compose.yml` tests will run automatically on code change.
 
 # <a name="ssh"></a>SSH Setup
 
