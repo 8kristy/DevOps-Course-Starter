@@ -1,4 +1,4 @@
-name: Continuous Integration
+name: Build
 on: 
   push:
     branches: 
@@ -66,28 +66,3 @@ jobs:
           }
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-  security:
-    name: Snyk
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-
-    - name: Check if Snyk token exists
-      id: snyk-secret-check
-      shell: bash
-      if: always()
-      run: |
-        if [ "${{ secrets.SNYK_TOKEN }}" != '' ]; then
-          echo "available=true" >> $GITHUB_OUTPUT;
-        else
-          echo "available=false" >> $GITHUB_OUTPUT;
-        fi
-
-    - name: Run Snyk to check for vulnerabilities
-      if: steps.snyk-secret-check.outputs.available == 'true'
-      uses: snyk/actions/python-3.10@master
-      env:
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      with:
-        args: --severity-threshold=high
