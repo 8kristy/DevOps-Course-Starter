@@ -70,15 +70,15 @@ security:
       - uses: actions/checkout@master
 
       - name: Check if Snyk token exists
-      id: slack-secret-check
-      shell: bash
-      if: always()
-      run: |
-        if [ "${{ secrets.SNYK_TOKEN }}" != '' ]; then
-          echo "available=true" >> $GITHUB_OUTPUT;
-        else
-          echo "available=false" >> $GITHUB_OUTPUT;
-        fi
+        id: slack-secret-check
+        shell: bash
+        if: always()
+        run: |
+          if [ "${{ secrets.SNYK_TOKEN }}" != '' ]; then
+            echo "available=true" >> $GITHUB_OUTPUT;
+          else
+            echo "available=false" >> $GITHUB_OUTPUT;
+          fi
 
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
