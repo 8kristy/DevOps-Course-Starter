@@ -14,6 +14,8 @@ jobs:
   build:
     name: Build and test
     runs-on: ubuntu-latest
+    env: 
+      slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
     steps:
     - uses: actions/checkout@v4
 
@@ -24,9 +26,7 @@ jobs:
       run: docker run --mount "type=bind,source=$(pwd),target=/usr/src/app" todo-app:test
     
     - name: Send GitHub Action failure notification to Slack channel
-      env: 
-        slack_webhook_url = ${{ secrets.SLACK_WEBHOOK_URL }}
-      if: slack_webhook_url != "" && failure()
+      if: ${{ env.slack_webhook_url }} != "" && failure()
       uses: slackapi/slack-github-action@v1.26.0
       with:
         payload: |
@@ -34,12 +34,10 @@ jobs:
             "text": ":x: GitHub Action failed"
           }
       env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_WEBHOOK_URL: ${{ env.slack_webhook_url }}
 
     - name: Send GitHub Action success notification to Slack channel
-      env: 
-        slack_webhook_url = ${{ secrets.SLACK_WEBHOOK_URL }}
-      if: slack_webhook_url != "" && success()
+      if: ${{ env.slack_webhook_url }} != "" && success()
       uses: slackapi/slack-github-action@v1.26.0
       with:
         payload: |
@@ -47,12 +45,10 @@ jobs:
             "text": ":white_check_mark: GitHub Action succeeded"
           }
       env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_WEBHOOK_URL: ${{ env.slack_webhook_url }}
 
     - name: Send GitHub Action cancelled notification to Slack channel
-      env: 
-        slack_webhook_url = ${{ secrets.SLACK_WEBHOOK_URL }}
-      if: slack_webhook_url != "" && cancelled()
+      if: ${{ env.slack_webhook_url }} != "" && cancelled()
       uses: slackapi/slack-github-action@v1.26.0
       with:
         payload: |
@@ -60,4 +56,4 @@ jobs:
             "text": ":warning: GitHub Action cancelled by ${{ github.actor }}"
           }
       env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_WEBHOOK_URL: ${{ env.slack_webhook_url }}
