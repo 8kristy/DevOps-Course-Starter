@@ -22,9 +22,19 @@ jobs:
       
     - name: Run tests in Docker
       run: docker run --mount "type=bind,source=$(pwd),target=/usr/src/app" todo-app:test
+
+    - name: Check if Slack webhook URL secret availability exists
+      id: slack-secret-check
+      shell: bash
+      run: |
+        if [ "${{ secrets.SLACK_WEBHOOK_URL }}" != '' ]; then
+          echo "available=true" >> $GITHUB_OUTPUT;
+        else
+          echo "available=false" >> $GITHUB_OUTPUT;
+        fi
     
     - name: Send GitHub Action failure notification to Slack channel
-      if: secrets.SLACK_WEBHOOK_URL && failure()
+      if: steps.slack-secret-check.outputs.available == 'true' && failure()
       uses: slackapi/slack-github-action@v1.26.0
       with:
         payload: |
@@ -35,7 +45,7 @@ jobs:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
     - name: Send GitHub Action success notification to Slack channel
-      if: secrets.SLACK_WEBHOOK_URL && success()
+      if: steps.slack-secret-check.outputs.available == 'true' && success()
       uses: slackapi/slack-github-action@v1.26.0
       with:
         payload: |
@@ -46,7 +56,7 @@ jobs:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
     - name: Send GitHub Action cancelled notification to Slack channel
-      if: secrets.SLACK_WEBHOOK_URL && cancelled()
+      if: steps.slack-secret-check.outputs.available == 'true' && cancelled()
       uses: slackapi/slack-github-action@v1.26.0
       with:
         payload: |
