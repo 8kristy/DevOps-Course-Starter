@@ -8,7 +8,7 @@ authors = []
 python = "^3.8"
 Flask = "^3.0.3"
 python-dotenv = "^0.14.0"
-requests = "^2.32.0"
+requests = "^2.32.3"
 pytest-watch = "^4.2.0"
 pytest = "^8.2.2"
 
