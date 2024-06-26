@@ -26,7 +26,7 @@ jobs:
       run: docker run --mount "type=bind,source=$(pwd),target=/usr/src/app" todo-app:test
     
     - name: Send GitHub Action failure notification to Slack channel
-      if: ${{ env.slack_webhook_url }} != "" && failure() }}
+      if: ${{ failure() && env.slack_webhook_url }} != "" }}
       uses: slackapi/slack-github-action@v1.26.0
       with:
         payload: |
@@ -37,7 +37,7 @@ jobs:
         SLACK_WEBHOOK_URL: ${{ env.slack_webhook_url }}
 
     - name: Send GitHub Action success notification to Slack channel
-      if: ${{ env.slack_webhook_url }} != "" && success() }}
+      if: ${{ success() && env.slack_webhook_url }} != "" }}
       uses: slackapi/slack-github-action@v1.26.0
       with:
         payload: |
@@ -48,7 +48,7 @@ jobs:
         SLACK_WEBHOOK_URL: ${{ env.slack_webhook_url }}
 
     - name: Send GitHub Action cancelled notification to Slack channel
-      if: ${{ env.slack_webhook_url }} != "" && cancelled() }}
+      if: ${{ cancelled() && env.slack_webhook_url }} != "" }}
       uses: slackapi/slack-github-action@v1.26.0
       with:
         payload: |
