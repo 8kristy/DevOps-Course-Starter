@@ -86,6 +86,6 @@ jobs:
 
     - name: Run Snyk to check for vulnerabilities
       if: steps.snyk-secret-check.outputs.available == 'true'
-      uses: snyk/actions/node@master
+      uses: snyk/actions/python-3.10@master
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
