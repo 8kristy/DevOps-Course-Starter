@@ -187,3 +187,14 @@ You can import the `C4.svg` file to draw.io, edit and then export as `.svg` and 
 - `cd todo_app`
 - `pyreverse -p todo_app .`
 - This will generate 2 `.dot` files. You can use tools such as https://dreampuf.github.io/GraphvizOnline to draw the diagrams from those files (alternatively you can install Graphviz and run `pyreverse -o png -p todo_app .`)
+
+# Pipeline Slack Notifications
+
+If you want to receive build notifications on slack:
+- Add the `Incoming WebHooks` app to the channel
+- Copy Webhook URL from the configuration
+- On GitHub: Settings -> Secrets and variables -> Actions -> Repository secrets
+- New repository secret
+  - Name: SLACK_WEBHOOK_URL
+  - Secret: Webhook URL you copied from the Slack app
+
