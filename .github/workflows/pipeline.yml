@@ -68,6 +68,7 @@ jobs:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   security:
+    name: Snyk
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
