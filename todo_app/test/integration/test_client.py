@@ -59,7 +59,7 @@ def test_index_page(monkeypatch, client):
     response = client.get('/')
 
     # Assert
-    assert response.status_code == 20
+    assert response.status_code == 200
     assert 'Test card' in response.data.decode()
 
 
