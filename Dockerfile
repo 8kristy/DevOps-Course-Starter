@@ -24,5 +24,8 @@ ENTRYPOINT poetry run flask run --host 0.0.0.0
 FROM base as debug
 ENTRYPOINT tail -f /dev/null
 
-FROM base as test
+FROM base as test-watcher
 ENTRYPOINT poetry run pytest-watch --poll
+
+FROM base as test
+ENTRYPOINT poetry run pytest
