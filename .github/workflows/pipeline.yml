@@ -42,6 +42,7 @@ jobs:
           {
             "text": ":x: GitHub Action failed"
           }
+      env:  
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
     - name: Send GitHub Action success notification to Slack channel
@@ -52,6 +53,7 @@ jobs:
           {
             "text": ":white_check_mark: GitHub Action succeeded"
           }
+      env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
     - name: Send GitHub Action cancelled notification to Slack channel
@@ -62,25 +64,26 @@ jobs:
           {
             "text": ":warning: GitHub Action cancelled by ${{ github.actor }}"
           }
+      env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-security:
+  security:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+    - uses: actions/checkout@master
 
-      - name: Check if Snyk token exists
-        id: slack-secret-check
-        shell: bash
-        if: always()
-        run: |
-          if [ "${{ secrets.SNYK_TOKEN }}" != '' ]; then
-            echo "available=true" >> $GITHUB_OUTPUT;
-          else
-            echo "available=false" >> $GITHUB_OUTPUT;
-          fi
+    - name: Check if Snyk token exists
+      id: slack-secret-check
+      shell: bash
+      if: always()
+      run: |
+        if [ "${{ secrets.SNYK_TOKEN }}" != '' ]; then
+          echo "available=true" >> $GITHUB_OUTPUT;
+        else
+          echo "available=false" >> $GITHUB_OUTPUT;
+        fi
 
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+    - name: Run Snyk to check for vulnerabilities
+      uses: snyk/actions/node@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
