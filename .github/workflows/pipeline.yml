@@ -42,7 +42,6 @@ jobs:
           {
             "text": ":x: GitHub Action failed"
           }
-      env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
     - name: Send GitHub Action success notification to Slack channel
@@ -53,7 +52,6 @@ jobs:
           {
             "text": ":white_check_mark: GitHub Action succeeded"
           }
-      env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
     - name: Send GitHub Action cancelled notification to Slack channel
@@ -64,5 +62,4 @@ jobs:
           {
             "text": ":warning: GitHub Action cancelled by ${{ github.actor }}"
           }
-      env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
