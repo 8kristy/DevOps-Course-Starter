@@ -74,7 +74,7 @@ jobs:
     - uses: actions/checkout@master
 
     - name: Check if Snyk token exists
-      id: slack-secret-check
+      id: snyk-secret-check
       shell: bash
       if: always()
       run: |
@@ -85,6 +85,7 @@ jobs:
         fi
 
     - name: Run Snyk to check for vulnerabilities
+      if: steps.snyk-secret-check.outputs.available == 'true'
       uses: snyk/actions/node@master
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
