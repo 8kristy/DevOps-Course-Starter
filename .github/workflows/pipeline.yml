@@ -26,6 +26,7 @@ jobs:
     - name: Check if Slack webhook URL secret availability exists
       id: slack-secret-check
       shell: bash
+      if: always()
       run: |
         if [ "${{ secrets.SLACK_WEBHOOK_URL }}" != '' ]; then
           echo "available=true" >> $GITHUB_OUTPUT;
