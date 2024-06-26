@@ -105,6 +105,12 @@ Press CTRL+C to quit
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
+# Troubleshooting
+
+If you experience problems when changing between running on Docker and locally (e.g. flask/pytest not found errors):
+- Delete `.venv` folder
+- Run poetry install (if you're running locally - if you get errors inside Docker don't run this)
+
 # Running the tests 
 
 To run all tests, simply run `poetry run pytest` from the terminal in the root folder. (`poetry run pytest <path\to\file>` to run tests in that file, `poetry run pytest <path\to\file> -k '<test_name>'` to run 1 specific test)
@@ -198,3 +204,12 @@ If you want to receive build notifications on slack:
   - Name: SLACK_WEBHOOK_URL
   - Secret: Webhook URL you copied from the Slack app
 
+# Snyk
+
+By default the job succeeds without checking anything. If you want to run a security scan you need to add `SNYK_TOKEN` to the secrets
+- On Snyk: (bottom left) Your account -> Account settings -> General -> Auth Token -> Key -> Click to show
+- Copy the key
+- On GitHub: Settings -> Secrets and variables -> Actions -> Repository secrets
+- New repository secret
+  - Name: SNYK_TOKEN
+  - Secret: Auth token you copied from the Snyk app
