@@ -14,7 +14,7 @@ services:
   to-do-app-tests:
     build: 
       context: .
-      target: test
+      target: test-watcher
     env_file:
       - path: .env.test  
     volumes:
