@@ -10,7 +10,7 @@ First do the steps in [Configuration](#configuration) to configure your environm
 
 `docker compose up --build`
 
-The app should be accessible in the browser via http://localhost:5000/ The code should change without you needing to re-run the container.
+The app should be accessible in the browser via http://localhost:5000/ The code should change without you needing to re-run the container and tests re-run on change.
 
 ### Debug
 
@@ -105,11 +105,26 @@ Press CTRL+C to quit
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
+# Troubleshooting
+
+If you experience problems when changing between running on Docker and locally (e.g. flask/pytest not found errors):
+- Delete `.venv` folder
+- Run poetry install (if you're running locally - if you get errors inside Docker don't run this)
+
 # Running the tests 
 
 To run all tests, simply run `poetry run pytest` from the terminal in the root folder. (`poetry run pytest <path\to\file>` to run tests in that file, `poetry run pytest <path\to\file> -k '<test_name>'` to run 1 specific test)
 
 To run tests in VSCode, press the "Testing" item on the left (beaker icon) or Ctrl+Shift+P -> `View: Show Testing` and select `pytest`, then `todo_app` when running the configuration. The tests should appear on the side panel and you should be able to run them through the UI, including adding breakpoints and debugging. 
+
+### Docker
+
+```
+docker build --target test --tag todo-app:test .
+docker run --mount "type=bind,source=$(pwd),target=/usr/src/app" todo-app:test
+```
+
+If running the default `docker-compose.yml` tests will run automatically on code change.
 
 # <a name="ssh"></a>SSH Setup
 
@@ -178,3 +193,23 @@ You can import the `C4.svg` file to draw.io, edit and then export as `.svg` and 
 - `cd todo_app`
 - `pyreverse -p todo_app .`
 - This will generate 2 `.dot` files. You can use tools such as https://dreampuf.github.io/GraphvizOnline to draw the diagrams from those files (alternatively you can install Graphviz and run `pyreverse -o png -p todo_app .`)
+
+# Pipeline Slack Notifications
+
+If you want to receive build notifications on slack:
+- Add the `Incoming WebHooks` app to the channel
+- Copy Webhook URL from the configuration
+- On GitHub: Settings -> Secrets and variables -> Actions -> Repository secrets
+- New repository secret
+  - Name: SLACK_WEBHOOK_URL
+  - Secret: Webhook URL you copied from the Slack app
+
+# Snyk
+
+By default the job succeeds without checking anything. If you want to run a security scan you need to add `SNYK_TOKEN` to the secrets
+- On Snyk: (bottom left) Your account -> Account settings -> General -> Auth Token -> Key -> Click to show
+- Copy the key
+- On GitHub: Settings -> Secrets and variables -> Actions -> Repository secrets
+- New repository secret
+  - Name: SNYK_TOKEN
+  - Secret: Auth token you copied from the Snyk app
