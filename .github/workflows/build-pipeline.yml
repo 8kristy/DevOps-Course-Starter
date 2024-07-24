@@ -23,27 +23,46 @@ jobs:
     - name: Run tests in Docker
       run: docker run --mount "type=bind,source=$(pwd),target=/usr/src/app" todo-app:test
 
-  send-slack-notification:
-      runs-on: ubuntu-latest
+    - name: Check if Slack webhook URL secret exists
+      id: slack-secret-check
+      shell: bash
+      if: always()
+      run: |
+        if [ "${{ secrets.SLACK_WEBHOOK_URL }}" != '' ]; then
+          echo "available=true" >> $GITHUB_OUTPUT;
+        else
+          echo "available=false" >> $GITHUB_OUTPUT;
+        fi
+    
+    - name: Send GitHub Action failure notification to Slack channel
+      if: steps.slack-secret-check.outputs.available == 'true' && failure()
+      uses: slackapi/slack-github-action@v1.26.0
+      with:
+        payload: |
+          {
+            "text": ":x: GitHub Action failed"
+          }
+      env:  
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    - name: Send GitHub Action success notification to Slack channel
+      if: steps.slack-secret-check.outputs.available == 'true' && success()
+      uses: slackapi/slack-github-action@v1.26.0
+      with:
+        payload: |
+          {
+            "text": ":white_check_mark: GitHub Action succeeded"
+          }
       env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      steps:
-          - name: Send GitHub Action failure notification to Slack channel
-            if: ${{ github.env.SLACK_WEBHOOK_URL != '' && failure() }}
-            uses: slackapi/slack-github-action@v1.26.0
-            with:
-              payload: |
-                {
-                  "text": ":x: GitHub Action failed"
-                }
-          - name: Send GitHub Action success notification to Slack channel
-            if: ${{ github.env.SLACK_WEBHOOK_URL != '' && success() }}
-            run: echo "This ran"
-          - name: Send GitHub Action cancelled notification to Slack channel
-            if: ${{ github.env.SLACK_WEBHOOK_URL != '' && cancelled() }}
-            uses: slackapi/slack-github-action@v1.26.0
-            with:
-              payload: |
-                {
-                  "text": ":warning: GitHub Action cancelled by ${{ github.actor }}"
-                }
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    - name: Send GitHub Action cancelled notification to Slack channel
+      if: steps.slack-secret-check.outputs.available == 'true' && cancelled()
+      uses: slackapi/slack-github-action@v1.26.0
+      with:
+        payload: |
+          {
+            "text": ":warning: GitHub Action cancelled by ${{ github.actor }}"
+          }
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
