@@ -216,6 +216,8 @@ By default the job succeeds without checking anything. If you want to run a secu
 
 # Azure
 
+This repos Docker image: https://hub.docker.com/repository/docker/8kristy/todo-app
+
 ## Prerequisites
 - Docker
 - Docker hub account
@@ -231,4 +233,10 @@ By default the job succeeds without checking anything. If you want to run a secu
   ```
   Alternatively run all the commands in `azure.ps1` manually
 - The app should be available on https://<globally_unique_web_app_name>.azurewebsites.net/
+
+## Restart the app
+- Find the webhook URL for your app
+  - On Azure portal - Your app resource -> Deployment -> Deployment Center -> Webhook URL
+- Make a POST request to that URL, e.g. `curl -v -X POST <webhook_url>`
+
 
