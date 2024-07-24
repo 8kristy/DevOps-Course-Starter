@@ -38,7 +38,6 @@ jobs:
                 }
           - name: Send GitHub Action success notification to Slack channel
             if: ${{ github.env.SLACK_WEBHOOK_URL != '' && success() }}
-            uses: slackapi/slack-github-action@v1.26.0
             run: echo "This ran"
           - name: Send GitHub Action cancelled notification to Slack channel
             if: ${{ github.env.SLACK_WEBHOOK_URL != '' && cancelled() }}
