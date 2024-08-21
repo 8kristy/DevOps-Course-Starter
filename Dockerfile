@@ -16,6 +16,7 @@ RUN poetry install
 
 FROM base as production
 COPY todo_app ./todo_app
+WORKDIR /usr/src/app/todo_app
 ENTRYPOINT poetry run flask run --host 0.0.0.0
 
 FROM base as development

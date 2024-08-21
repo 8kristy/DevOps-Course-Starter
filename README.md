@@ -213,3 +213,31 @@ By default the job succeeds without checking anything. If you want to run a secu
 - New repository secret
   - Name: SNYK_TOKEN
   - Secret: Auth token you copied from the Snyk app
+
+# Azure
+
+This repos Docker image: https://hub.docker.com/repository/docker/8kristy/todo-app
+
+## Prerequisites
+- Docker
+- Docker hub account
+- Azure account and resource group
+- Azure CLI
+
+## Deployment
+- Login to Docker using `docker login`
+- Login to Azure using `az login`
+- If you're on Windows, run 
+  ```
+  ./azure.ps1 -DockerName "<your_docker_username>" -ResourceGroupName "<your_resource_group>" -AppServicePlanName "<app_service_plan_name>" -WebAppName "globally_unique_web_app_name" -TrelloApiKey <your_trello_api_key> -TrelloApiToken <your_trello_api_token> -TrelloBoardId <your_trello_board_id> -TrelloToDoListId <your_trello_to_do_list_id> -TrelloDoneListId <your_trello_done_list_id>
+  ```
+  Alternatively run all the commands in `azure.ps1` manually
+- The app should be available on https://<globally_unique_web_app_name>.azurewebsites.net/
+  - e.g. https://kristinatodoapp.azurewebsites.net/
+
+## Restart the app
+- Find the webhook URL for your app
+  - On Azure portal - Your app resource -> Deployment -> Deployment Center -> Webhook URL
+- Make a POST request to that URL, e.g. `curl -v -X POST <webhook_url>`
+
+
