@@ -89,7 +89,7 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/todo-app:production
           cache-from: |
             ${{ secrets.DOCKER_USERNAME }}/todo-app:production
-            type=registry,ref=${{ secrets.DOCKER_USERNAME }}/todo-app
+            type=registry,ref=${{ secrets.DOCKER_USERNAME }}/todo-app:production
         
       - name: Deploy Azure webapp
         id: deploy
