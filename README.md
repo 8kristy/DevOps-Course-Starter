@@ -233,6 +233,7 @@ This repos Docker image: https://hub.docker.com/repository/docker/8kristy/todo-a
   ```
   Alternatively run all the commands in `azure.ps1` manually
 - The app should be available on https://<globally_unique_web_app_name>.azurewebsites.net/
+  - e.g. https://kristinatodoapp.azurewebsites.net/
 
 ## Restart the app
 - Find the webhook URL for your app
