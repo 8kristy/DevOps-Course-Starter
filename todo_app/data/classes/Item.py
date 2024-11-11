@@ -12,11 +12,6 @@ class Item:
         self.status = status
 
     @classmethod
-    def from_trello_card(cls, card, list):
-        status = ItemStatus.DONE if list['id'] == os.getenv("TRELLO_DONE_LIST_ID") else ItemStatus.TODO
-        return cls(card['id'], card['name'], status)
-
-    @classmethod
     def from_cosmos_db_item(cls, item):
         status = ItemStatus.DONE if item['isDone'] else ItemStatus.TODO
         return cls(item['_id'], item['item'], status)
