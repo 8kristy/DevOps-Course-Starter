@@ -8,7 +8,6 @@ class CosmosDbService():
         self.db = self.client[os.getenv("COSMOS_DB_DATABASE_NAME")]
         self.collection = self.db[os.getenv("COSMOS_DB_COLLECTION_NAME")]
         
-
     def get_items(self):
         """
         Fetches all items from the database.

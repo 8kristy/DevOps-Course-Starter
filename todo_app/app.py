@@ -7,28 +7,28 @@ from todo_app.flask_config import Config
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config())
-    cosmosDbService = CosmosDbService()
+    app.cosmosDbService = CosmosDbService()
 
     @app.route('/')
     def index():
-        items = cosmosDbService.get_items()
+        items = app.cosmosDbService.get_items()
         items = sorted(items, key=lambda x: x.status.value)
         item_view_model = ViewModel(items)
         return render_template('index.html', view_model=item_view_model)
 
     @app.route('/add-item', methods=['POST'])
     def addItem():
-        cosmosDbService.add_item(request.form.get("newItem"))
+        app.cosmosDbService.add_item(request.form.get("newItem"))
         return redirect('/') 
 
     @app.route('/update-item', methods=['POST'])
     def updateItem():
-        cosmosDbService.update_item(request.json.get("id"))
+        app.cosmosDbService.update_item(request.json.get("id"))
         return redirect('/')
 
     @app.route('/remove-item', methods=['POST'])
     def removeItem():
-        cosmosDbService.remove_item(request.json.get("id"))
+        app.cosmosDbService.remove_item(request.json.get("id"))
         return redirect('/')
     
     return app
