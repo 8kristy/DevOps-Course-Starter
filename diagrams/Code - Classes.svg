@@ -16,14 +16,14 @@
 <!-- todo_app.data.classes.Item.Item -->
 <g id="node2" class="node">
 <title>todo_app.data.classes.Item.Item</title>
-<polygon fill="none" stroke="#000000" points="191.7412,-50.9 191.7412,-158.9 360.1172,-158.9 360.1172,-50.9 191.7412,-50.9"/>
+<polygon fill="none" stroke="#000000" points="191.7412,-50.9 191.7412,-158.9 370.1172,-158.9 370.1172,-50.9 191.7412,-50.9"/>
 <text text-anchor="start" x="263.101" y="-142.3" font-family="Times,serif" font-size="14.00" fill="#000000">Item</text>
-<polyline fill="none" stroke="#000000" points="191.7412,-134.1 360.1172,-134.1 "/>
+<polyline fill="none" stroke="#000000" points="191.7412,-134.1 370.1172,-134.1 "/>
 <text text-anchor="start" x="235.1052" y="-117.5" font-family="Times,serif" font-size="14.00" fill="#000000">id</text>
 <text text-anchor="start" x="235.1052" y="-100.7" font-family="Times,serif" font-size="14.00" fill="#000000">name</text>
 <text text-anchor="start" x="235.1052" y="-83.9" font-family="Times,serif" font-size="14.00" fill="#000000">status : TODO</text>
-<polyline fill="none" stroke="#000000" points="191.7412,-75.7 360.1172,-75.7 "/>
-<text text-anchor="start" x="199.7412" y="-59.1" font-family="Times,serif" font-size="14.00" fill="#000000">from_trello_card(card, list)</text>
+<polyline fill="none" stroke="#000000" points="191.7412,-75.7 370.1172,-75.7 "/>
+<text text-anchor="start" x="199.7412" y="-59.1" font-family="Times,serif" font-size="14.00" fill="#000000">from_cosmos_db_item(item)</text>
 </g>
 <!-- todo_app.data.classes.Item.ItemStatus -->
 <g id="node3" class="node">
@@ -35,23 +35,20 @@
 <polyline fill="none" stroke="#000000" points="377.9895,-92.5 453.8689,-92.5 "/>
 <text text-anchor="start" x="414.1792" y="-75.9" font-family="Times,serif" font-size="14.00" fill="#000000"> </text>
 </g>
-<!-- todo_app.data.trello_items.TrelloService -->
+<!-- todo_app.data.cosmos_db_items.CosmosDbService -->
 <g id="node4" class="node">
-<title>todo_app.data.trello_items.TrelloService</title>
-<polygon fill="none" stroke="#000000" points="471.9909,-.5 471.9909,-209.3 631.8675,-209.3 631.8675,-.5 471.9909,-.5"/>
-<text text-anchor="start" x="513.8359" y="-192.7" font-family="Times,serif" font-size="14.00" fill="#000000">TrelloService</text>
+<title>todo_app.data.cosmos_db_items.CosmosDbService</title>
+<polygon fill="none" stroke="#000000" points="471.9909,-50.5 471.9909,-209.3 631.8675,-209.3 631.8675,-50.5 471.9909,-50.5"/>
+<text text-anchor="start" x="513.8359" y="-192.7" font-family="Times,serif" font-size="14.00" fill="#000000">CosmosDbService</text>
 <polyline fill="none" stroke="#000000" points="471.9909,-184.5 631.8675,-184.5 "/>
-<text text-anchor="start" x="479.9909" y="-167.9" font-family="Times,serif" font-size="14.00" fill="#000000">base_url : str</text>
-<text text-anchor="start" x="479.9909" y="-151.1" font-family="Times,serif" font-size="14.00" fill="#000000">board_id : NoneType</text>
-<text text-anchor="start" x="479.9909" y="-134.3" font-family="Times,serif" font-size="14.00" fill="#000000">done_list_id : NoneType</text>
-<text text-anchor="start" x="479.9909" y="-117.5" font-family="Times,serif" font-size="14.00" fill="#000000">headers : dict</text>
-<text text-anchor="start" x="479.9909" y="-100.7" font-family="Times,serif" font-size="14.00" fill="#000000">query : dict</text>
-<text text-anchor="start" x="479.9909" y="-83.9" font-family="Times,serif" font-size="14.00" fill="#000000">to_do_list_id : NoneType</text>
-<polyline fill="none" stroke="#000000" points="471.9909,-75.7 631.8675,-75.7 "/>
-<text text-anchor="start" x="504.8899" y="-59.1" font-family="Times,serif" font-size="14.00" fill="#000000">add_item(title)</text>
-<text text-anchor="start" x="504.8899" y="-42.3" font-family="Times,serif" font-size="14.00" fill="#000000">get_items()</text>
-<text text-anchor="start" x="504.8899" y="-25.5" font-family="Times,serif" font-size="14.00" fill="#000000">remove_item(id)</text>
-<text text-anchor="start" x="504.8899" y="-8.7" font-family="Times,serif" font-size="14.00" fill="#000000">update_item(id)</text>
+<text text-anchor="start" x="479.9909" y="-167.9" font-family="Times,serif" font-size="14.00" fill="#000000">client : NoneType</text>
+<text text-anchor="start" x="479.9909" y="-151.1" font-family="Times,serif" font-size="14.00" fill="#000000">db : NoneType</text>
+<text text-anchor="start" x="479.9909" y="-134.3" font-family="Times,serif" font-size="14.00" fill="#000000">collection : NoneType</text>
+<polyline fill="none" stroke="#000000" points="471.9909,-125.7 631.8675,-125.7 "/>
+<text text-anchor="start" x="504.8899" y="-105.1" font-family="Times,serif" font-size="14.00" fill="#000000">add_item(title)</text>
+<text text-anchor="start" x="504.8899" y="-90.3" font-family="Times,serif" font-size="14.00" fill="#000000">get_items()</text>
+<text text-anchor="start" x="504.8899" y="-75.5" font-family="Times,serif" font-size="14.00" fill="#000000">remove_item(id)</text>
+<text text-anchor="start" x="504.8899" y="-60.7" font-family="Times,serif" font-size="14.00" fill="#000000">update_item(id)</text>
 </g>
 <!-- todo_app.data.classes.ViewModel.ViewModel -->
 <g id="node5" class="node">
