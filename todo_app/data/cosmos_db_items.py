@@ -15,7 +15,8 @@ class CosmosDbService():
         Returns:
             list: The list of items.
         """
-        pass
+        items = self.collection.find()
+        return [Item.from_cosmos_db_item(item) for item in items]
 
     def add_item(self, title):
         """
