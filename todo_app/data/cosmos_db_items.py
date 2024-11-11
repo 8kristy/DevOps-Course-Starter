@@ -1,4 +1,5 @@
 import os, requests, pymongo
+from bson import ObjectId
 from todo_app.data.classes.Item import Item
 
 class CosmosDbService():
@@ -25,7 +26,7 @@ class CosmosDbService():
         Args:
             title: The title of the item.
         """
-        pass       
+        self.collection.insert_one({"item": title, "isDone": False})       
 
     def update_item(self, id):
         """
@@ -34,7 +35,9 @@ class CosmosDbService():
         Args:
             id: The ID of the item to update.
         """
-        pass
+        item = self.collection.find_one({"_id": ObjectId(id)})
+        isDone = False if item["isDone"] else True
+        self.collection.update_one({"_id": ObjectId(id)}, {"$set": {"isDone": isDone}})
 
     def remove_item(self, id):
         """
@@ -43,5 +46,5 @@ class CosmosDbService():
         Args:
             id: Id of the item to remove.
         """
-        pass
+        self.collection.delete_one({"_id": ObjectId(id)})
 
