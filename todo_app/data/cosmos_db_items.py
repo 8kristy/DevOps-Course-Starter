@@ -1,4 +1,4 @@
-import os, requests, pymongo
+import os, pymongo
 from bson import ObjectId
 from todo_app.data.classes.Item import Item
 
