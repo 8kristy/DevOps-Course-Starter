@@ -66,9 +66,9 @@ The `.env` file is used by flask to set environment variables when running `flas
 
 ## <a name="configuration"></a> Configuration
 
-You need to populate the `COSMOS_DB_CONNECTION_STRING`,`COSMOS_DB_DATABASE_NAME` and `COSMOS_DB_COLLECTION_NAME` variables in the `.env` file. 
+You need to populate the `COSMOS_DB_CONNECTION_STRING`,`COSMOS_DB_DATABASE_NAME`, `COSMOS_DB_COLLECTION_NAME`, `OAUTH_CLIENT_ID` and `OAUTH_CLIENT_SECRET` variables in the `.env` file. 
 
-Set up you CosmosDB
+Set up your CosmosDB
 ```
 az cosmosdb create --name <cosmos_account_name> --resource-group <resource_group_name> --kind MongoDB --capabilities EnableServerless --server-version 4.2
 
@@ -81,6 +81,7 @@ az cosmosdb mongodb database create --account-name <cosmos_account_name> --name 
 
 Create a collection in your DB on Azure. Put the name of the collection to `COSMOS_DB_COLLECTION_NAME`
 
+Create a [GitHub OAuth App](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app) and fill in `OAUTH_CLIENT_ID` and `OAUTH_CLIENT_SECRET` with value from there 
 
 ## Running the App
 
@@ -160,6 +161,8 @@ This assumes that the nodes have already been set up
   cosmos_db_connection_string: <COSMOS_DB_CONNECTION_STRING>
   cosmos_db_database_name: <COSMOS_DB_DATABASE_NAME>
   cosmos_db_collection_name: <COSMOS_DB_COLLECTION_NAME>
+  oauth_client_id: <OAUTH_CLIENT_ID>
+  oauth_client_secret: <OAUTH_CLIENT_SECRET>
   ```
   - Save the vault
 
@@ -224,7 +227,7 @@ This repos Docker image: https://hub.docker.com/repository/docker/8kristy/todo-a
 - Login to Azure using `az login`
 - If you're on Windows, run 
   ```
-  ./azure.ps1 -DockerName "<your_docker_username>" -ResourceGroupName "<your_resource_group>" -AppServicePlanName "<app_service_plan_name>" -WebAppName "globally_unique_web_app_name" -CosmosDbConnectionString <your_cosmos_db_connection_string> -CosmosDbDatabaseName <your_cosmos_db_database_name> -CosmosDbCollectionName <your_cosmos_db_collection_name>
+  ./azure.ps1 -DockerName "<your_docker_username>" -ResourceGroupName "<your_resource_group>" -AppServicePlanName "<app_service_plan_name>" -WebAppName "globally_unique_web_app_name" -CosmosDbConnectionString <your_cosmos_db_connection_string> -CosmosDbDatabaseName <your_cosmos_db_database_name> -CosmosDbCollectionName <your_cosmos_db_collection_name> -OAuthClientId <oauth_app_client_id> -OAuthClientSecret <oauth_app_client_secret>
   ```
   Alternatively run all the commands in `azure.ps1` manually
 - The app should be available on https://<globally_unique_web_app_name>.azurewebsites.net/
