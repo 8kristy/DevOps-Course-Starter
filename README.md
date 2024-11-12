@@ -230,9 +230,10 @@ This repos Docker image: https://hub.docker.com/repository/docker/8kristy/todo-a
 - The app should be available on https://<globally_unique_web_app_name>.azurewebsites.net/
   - e.g. https://kristinatodoapp.azurewebsites.net/
 
-## Restart the app
+# Restart the app
 - Find the webhook URL for your app
   - On Azure portal - Your app resource -> Deployment -> Deployment Center -> Webhook URL
 - Make a POST request to that URL, e.g. `curl -v -X POST <webhook_url>`
 
-
+## Encryption
+CosmosDB data is encrypted at rest and in transit, see [Data encryption in Azure Cosmos DB](https://learn.microsoft.com/en-us/azure/cosmos-db/database-encryption-at-rest) for more details. The deployed application forces HTTPS.
