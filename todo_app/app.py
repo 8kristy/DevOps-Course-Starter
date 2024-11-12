@@ -14,6 +14,7 @@ def create_app():
     app.config.from_object(Config())
     app.cosmosDbService = CosmosDbService()
 
+    app.config['LOGIN_DISABLED'] = os.getenv('LOGIN_DISABLED') == 'True'
     login_manager = LoginManager()
     github_base_url = "https://github.com/login/oauth"
 
