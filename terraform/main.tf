@@ -7,7 +7,7 @@ terraform {
   }
 
   backend "azurerm" {
-      resource_group_name  = data.azurerm_resource_group.main.name
+      resource_group_name  = "cohort32-33_KriSob_ProjectExercise"
       storage_account_name = "kristinatodoappstorage"
       container_name       = "kristinatodoappcontainer"
       key                  = "terraform.tfstate"
