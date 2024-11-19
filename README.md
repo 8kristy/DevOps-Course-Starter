@@ -223,6 +223,13 @@ This repos Docker image: https://hub.docker.com/repository/docker/8kristy/todo-a
 - Azure CLI
 
 ## Deployment
+
+### Terraform
+- Create a `terraform.tfvars` file in `/terraform`
+- Fill in the values for variables defined in `/terraform/variables.tf`
+- `terraform apply`
+
+### Script
 - Login to Docker using `docker login`
 - Login to Azure using `az login`
 - If you're on Windows, run 
