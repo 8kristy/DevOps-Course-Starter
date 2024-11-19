@@ -65,13 +65,22 @@ jobs:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   docker:
-    if: github.head_ref == 'main'
-    name: Push Docker image to Docker Hub
+    # if: github.head_ref == 'main'
+    name: Deploy resources
     runs-on: ubuntu-latest      
     needs: [build]
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
+
+      - name: Deploy Terraform Resources
+        uses: hashicorp/tfc-workflows-github/actions/upload-configuration@v1.0.0
+        id: apply
+        env:
+          TF_VAR_ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }} 
+          TF_VAR_ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          TF_VAR_ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }} 
+          TF_VAR_ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}  
 
       - name: Log in to Docker Hub
         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
@@ -94,4 +103,4 @@ jobs:
         
       - name: Deploy Azure webapp
         id: deploy
-        run: curl --fail -dH -X POST '${{ secrets.AZURE_WEBHOOK }}'
+        run: curl --fail -dH -X POST '${{ steps.apply.outputs.webhook_url }}'
