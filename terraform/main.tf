@@ -5,6 +5,13 @@ terraform {
       version = ">= 3.8"
     }
   }
+
+  backend "azurerm" {
+      resource_group_name  = data.azurerm_resource_group.main.name
+      storage_account_name = "kristinatodoappstorage"
+      container_name       = "kristinatodoappcontainer"
+      key                  = "terraform.tfstate"
+    }
 }
 
 provider "azurerm" {
