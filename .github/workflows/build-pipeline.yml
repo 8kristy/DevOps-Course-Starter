@@ -77,16 +77,16 @@ jobs:
         id: terraform-init
         working-directory: ./terraform
         run: terraform init
-
-      - name: Deploy Terraform Resources
-        id: terraform--apply
-        working-directory: ./terraform
-        run: terraform apply -auto-approve
         env:
           TF_VAR_ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }} 
           TF_VAR_ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
           TF_VAR_ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }} 
-          TF_VAR_ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}  
+          TF_VAR_ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }} 
+
+      - name: Deploy Terraform Resources
+        id: terraform--apply
+        working-directory: ./terraform
+        run: terraform apply -auto-approve 
 
       - name: Log in to Docker Hub
         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
