@@ -75,6 +75,7 @@ jobs:
 
       - name: Deploy Terraform Resources
         id: apply-terraform
+        working-directory: ./terraform
         run: terraform apply -auto-approve
         env:
           TF_VAR_ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }} 
