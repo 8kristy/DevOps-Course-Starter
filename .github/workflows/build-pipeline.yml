@@ -73,8 +73,13 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v4
 
+      - name: Initialise Terraform 
+        id: terraform-init
+        working-directory: ./terraform
+        run: terraform init
+
       - name: Deploy Terraform Resources
-        id: apply-terraform
+        id: terraform--apply
         working-directory: ./terraform
         run: terraform apply -auto-approve
         env:
