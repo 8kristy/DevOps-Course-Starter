@@ -72,17 +72,18 @@ jobs:
 
     permissions:
       id-token: write 
+      contents: read
 
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
 
-      - name: Login to Azure with Service Principal
+      - name: Azure login
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.ARM_CLIENT_ID }}
-          subscription-id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           tenant-id: ${{ secrets.ARM_TENANT_ID }}
+          subscription-id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
