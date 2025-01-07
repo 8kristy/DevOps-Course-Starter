@@ -104,7 +104,7 @@ jobs:
       - name: Deploy Terraform Resources
         id: terraform--apply
         working-directory: ./terraform
-        run: terraform apply -auto-approve; export WEBHOOK_URL = $(terraform output -raw webhook_url)
+        run: terraform apply -auto-approve
         env:
           TF_VAR_client_id: ${{ secrets.ARM_CLIENT_ID }} 
           TF_VAR_client_secret: ${{ secrets.ARM_CLIENT_SECRET }}
@@ -134,4 +134,4 @@ jobs:
         
       - name: Deploy Azure webapp
         id: deploy
-        run: curl --fail -dH -X POST $WEBHOOK_URL
+        run: curl --fail -dH -X POST "$(terraform output -raw webhook_url)"
