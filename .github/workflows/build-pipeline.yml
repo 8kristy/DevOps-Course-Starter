@@ -105,6 +105,13 @@ jobs:
         id: terraform--apply
         working-directory: ./terraform
         run: terraform apply -auto-approve 
+        env:
+          TF_VAR_client_id: ${{ secrets.ARM_CLIENT_ID }} 
+          TF_VAR_client_secret: ${{ secrets.ARM_CLIENT_SECRET }}
+          TF_VAR_tenant_id: ${{ secrets.ARM_TENANT_ID }} 
+          TF_VAR_subscription_id: ${{ secrets.ARM_SUBSCRIPTION_ID }} 
+          TF_VAR_oauth_client_id: ${{ secrets.OAUTH_CLIENT_ID }} 
+          TF_VAR_oauth_client_secret: ${{ secrets.OAUTH_CLIENT_SECRET }} 
 
       - name: Log in to Docker Hub
         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
