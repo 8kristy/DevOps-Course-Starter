@@ -133,7 +133,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Show webhook URL
-        run: terraform output -raw webhook_url
+        run: terraform refresh; terraform output -raw webhook_url
         
       - name: Deploy Azure webapp
         id: deploy
