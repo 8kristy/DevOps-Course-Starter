@@ -73,13 +73,8 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v4
 
-      - name: Set up Azure CLI
-        uses: azure/setup-azurecli@v1
-        with:
-          azure-subscription: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-
       - name: Login to Azure with Service Principal
-        uses: azure/login@v1
+        uses: azure/login@v2
         with:
           client-id: ${{ secrets.ARM_CLIENT_ID }}
           client-secret: ${{ secrets.ARM_CLIENT_SECRET }}
