@@ -65,13 +65,53 @@ jobs:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   docker:
-    if: github.head_ref == 'main'
-    name: Push Docker image to Docker Hub
+    # if: github.head_ref == 'main'
+    name: Deploy resources
     runs-on: ubuntu-latest      
     needs: [build]
+
+    permissions:
+      id-token: write 
+      contents: read
+
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
+
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+            terraform_version: "^1.3.7"
+            terraform_wrapper: false
+
+      - name: Set Terraform environment variables
+        run: |
+          echo "ARM_CLIENT_ID=${{ secrets.ARM_CLIENT_ID }}" >> $GITHUB_ENV
+          echo "ARM_CLIENT_SECRET=${{ secrets.ARM_CLIENT_SECRET }}" >> $GITHUB_ENV
+          echo "ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }}" >> $GITHUB_ENV
+          echo "ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
+
+      - name: Initialise Terraform 
+        id: terraform-init
+        working-directory: ./terraform
+        run: terraform init
+
+      - name: Deploy Terraform Resources
+        id: terraform--apply
+        working-directory: ./terraform
+        run: terraform apply -auto-approve
+        env:
+          TF_VAR_client_id: ${{ secrets.ARM_CLIENT_ID }} 
+          TF_VAR_client_secret: ${{ secrets.ARM_CLIENT_SECRET }}
+          TF_VAR_tenant_id: ${{ secrets.ARM_TENANT_ID }} 
+          TF_VAR_subscription_id: ${{ secrets.ARM_SUBSCRIPTION_ID }} 
+          TF_VAR_oauth_client_id: ${{ secrets.OAUTH_CLIENT_ID }} 
+          TF_VAR_oauth_client_secret: ${{ secrets.OAUTH_CLIENT_SECRET }} 
 
       - name: Log in to Docker Hub
         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
@@ -94,4 +134,4 @@ jobs:
         
       - name: Deploy Azure webapp
         id: deploy
-        run: curl --fail -dH -X POST '${{ secrets.AZURE_WEBHOOK }}'
+        run: curl --fail -dH -X POST "$(terraform output -raw webhook_url)"

@@ -121,3 +121,5 @@ env/
 .vscode/settings.json
 id_rsa
 id_rsa.pub
+terraform/.terraform**
+terraform/terraform.*
