@@ -131,6 +131,9 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/todo-app:production
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Show webhook URL
+        run: terraform output -raw webhook_url
         
       - name: Deploy Azure webapp
         id: deploy
