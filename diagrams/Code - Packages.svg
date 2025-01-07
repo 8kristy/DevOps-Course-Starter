@@ -27,15 +27,15 @@
 <path fill="none" stroke="#000000" d="M261.7948,-34.248C233.0403,-44.3966 195.6917,-57.5785 164.5307,-68.5765"/>
 <polygon fill="#000000" stroke="#000000" points="155.075,-71.9138 163.0072,-64.342 159.79,-70.2496 164.5049,-68.5855 164.5049,-68.5855 164.5049,-68.5855 159.79,-70.2496 166.0026,-72.829 155.075,-71.9138 155.075,-71.9138"/>
 </g>
-<!-- todo_app.data.trello_items -->
+<!-- todo_app.data.cosmos_db_items -->
 <g id="node8" class="node">
-<title>todo_app.data.trello_items</title>
-<polygon fill="none" stroke="#000000" points="390.634,-108 225.0274,-108 225.0274,-72 390.634,-72 390.634,-108"/>
-<text text-anchor="middle" x="307.8307" y="-85.8" font-family="Times,serif" font-size="14.00" fill="#000000">todo_app.data.trello_items</text>
+<title>todo_app.data.cosmos_db_items</title>
+<polygon fill="none" stroke="#000000" points="400.634,-108 215.0274,-108 215.0274,-72 400.634,-72 400.634,-108"/>
+<text text-anchor="middle" x="307.8307" y="-85.8" font-family="Times,serif" font-size="14.00" fill="#000000">todo_app.data.cosmos_db_items</text>
 </g>
-<!-- todo_app.app&#45;&gt;todo_app.data.trello_items -->
+<!-- todo_app.app&#45;&gt;todo_app.data.cosmos_db_items -->
 <g id="edge2" class="edge">
-<title>todo_app.app-&gt;todo_app.data.trello_items</title>
+<title>todo_app.app-&gt;todo_app.data.cosmos_db_items</title>
 <path fill="none" stroke="#000000" d="M307.8307,-36.1686C307.8307,-43.869 307.8307,-53.0257 307.8307,-61.5834"/>
 <polygon fill="#000000" stroke="#000000" points="307.8307,-71.5867 303.3308,-61.5867 307.8307,-66.5867 307.8308,-61.5867 307.8308,-61.5867 307.8308,-61.5867 307.8307,-66.5867 312.3308,-61.5868 307.8307,-71.5867 307.8307,-71.5867"/>
 </g>
@@ -75,15 +75,9 @@
 <path fill="none" stroke="#000000" d="M129.5696,-108.1686C142.3744,-117.2073 158.0216,-128.2524 171.8026,-137.9802"/>
 <polygon fill="#000000" stroke="#000000" points="180.1,-143.8372 169.3352,-141.7467 176.0152,-140.9537 171.9303,-138.0703 171.9303,-138.0703 171.9303,-138.0703 176.0152,-140.9537 174.5254,-134.3939 180.1,-143.8372 180.1,-143.8372"/>
 </g>
-<!-- todo_app.data.session_items -->
-<g id="node7" class="node">
-<title>todo_app.data.session_items</title>
-<polygon fill="none" stroke="#000000" points="816.0258,-36 639.6356,-36 639.6356,0 816.0258,0 816.0258,-36"/>
-<text text-anchor="middle" x="727.8307" y="-13.8" font-family="Times,serif" font-size="14.00" fill="#000000">todo_app.data.session_items</text>
-</g>
-<!-- todo_app.data.trello_items&#45;&gt;todo_app.data.classes.Item -->
+<!-- todo_app.data.cosmos_db_items&#45;&gt;todo_app.data.classes.Item -->
 <g id="edge5" class="edge">
-<title>todo_app.data.trello_items-&gt;todo_app.data.classes.Item</title>
+<title>todo_app.data.cosmos_db_items-&gt;todo_app.data.classes.Item</title>
 <path fill="none" stroke="#000000" d="M282.0918,-108.1686C269.287,-117.2073 253.6398,-128.2524 239.8588,-137.9802"/>
 <polygon fill="#000000" stroke="#000000" points="231.5614,-143.8372 237.136,-134.3939 235.6462,-140.9537 239.7311,-138.0703 239.7311,-138.0703 239.7311,-138.0703 235.6462,-140.9537 242.3262,-141.7467 231.5614,-143.8372 231.5614,-143.8372"/>
 </g>

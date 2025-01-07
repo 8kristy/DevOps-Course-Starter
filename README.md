@@ -66,24 +66,21 @@ The `.env` file is used by flask to set environment variables when running `flas
 
 ## <a name="configuration"></a> Configuration
 
-You need to populate the `TRELLO_API_KEY`,`TRELLO_API_TOKEN`, `TRELLO_BOARD_ID`, `TRELLO_TO_DO_LIST_ID` and `TRELLO_DONE_LIST_ID` variables in the `.env` file. 
+You need to populate the `COSMOS_DB_CONNECTION_STRING`,`COSMOS_DB_DATABASE_NAME` and `COSMOS_DB_COLLECTION_NAME` variables in the `.env` file. 
 
-First create a [Trello](https://trello.com/) account and make a test board (e.g. To-Do App - test) with `To Do` and `Done` columns.
-
-Create a new power-up for the app here https://trello.com/power-ups/admin, then generate an API key and after that a token for it (there should be a link on the right of the API key) - these are the values for `TRELLO_API_KEY` and `TRELLO_API_TOKEN` respectively.
-
-To get your test board ID, make this GET request (don't forget to substitute the values)
-
+Set up you CosmosDB
 ```
-https://api.trello.com/1/members/me/boards?key={TRELLO_API_KEY}&token={TRELLO_API_TOKEN}
-```
-find your test board object (the name of it should be displayed), copy the ID and put it as your `TRELLO_BOARD_ID` value.
+az cosmosdb create --name <cosmos_account_name> --resource-group <resource_group_name> --kind MongoDB --capabilities EnableServerless --server-version 4.2
 
-To get `TRELLO_TO_DO_LIST_ID` and `TRELLO_DONE_LIST_ID`, make this request
+az cosmosdb mongodb database create --account-name <cosmos_account_name> --name <database_name> --resource-group <resource_group_name>
 ```
-https://api.trello.com/1/boards/{TRELLO_BOARD_ID}/lists?key={TRELLO_API_KEY}&token={TRELLO_API_TOKEN}
-```
-and copy the IDs from the response into the variables.
+
+`COSMOS_DB_CONNECTION_STRING` can be found on Azure under your cluster (i.e. cosmos_account_name) -> Settings -> Connection Strings -> Primary connection string
+
+`COSMOS_DB_DATABASE_NAME` is `<database_name>` from earlier command
+
+Create a collection in your DB on Azure. Put the name of the collection to `COSMOS_DB_COLLECTION_NAME`
+
 
 ## Running the App
 
@@ -160,11 +157,9 @@ This assumes that the nodes have already been set up
   - Enter a password (you need to remember it)
   - Copy your keys from .env to the vault in the following format (see [Configuration](#configuration) on how to get the values if you don't have them yet):
   ```
-  trello_api_key: <TRELLO_API_KEY>
-  trello_api_token: <TRELLO_API_TOKEN>
-  trello_board_id: <TRELLO_BOARD_ID>
-  trello_to_do_list_id: <TRELLO_TO_DO_LIST_ID> 
-  trello_done_list_id: <TRELLO_DONE_LIST_ID>
+  cosmos_db_connection_string: <COSMOS_DB_CONNECTION_STRING>
+  cosmos_db_database_name: <COSMOS_DB_DATABASE_NAME>
+  cosmos_db_collection_name: <COSMOS_DB_COLLECTION_NAME>
   ```
   - Save the vault
 
@@ -229,7 +224,7 @@ This repos Docker image: https://hub.docker.com/repository/docker/8kristy/todo-a
 - Login to Azure using `az login`
 - If you're on Windows, run 
   ```
-  ./azure.ps1 -DockerName "<your_docker_username>" -ResourceGroupName "<your_resource_group>" -AppServicePlanName "<app_service_plan_name>" -WebAppName "globally_unique_web_app_name" -TrelloApiKey <your_trello_api_key> -TrelloApiToken <your_trello_api_token> -TrelloBoardId <your_trello_board_id> -TrelloToDoListId <your_trello_to_do_list_id> -TrelloDoneListId <your_trello_done_list_id>
+  ./azure.ps1 -DockerName "<your_docker_username>" -ResourceGroupName "<your_resource_group>" -AppServicePlanName "<app_service_plan_name>" -WebAppName "globally_unique_web_app_name" -CosmosDbConnectionString <your_cosmos_db_connection_string> -CosmosDbDatabaseName <your_cosmos_db_database_name> -CosmosDbCollectionName <your_cosmos_db_collection_name>
   ```
   Alternatively run all the commands in `azure.ps1` manually
 - The app should be available on https://<globally_unique_web_app_name>.azurewebsites.net/
